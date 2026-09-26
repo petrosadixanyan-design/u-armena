@@ -369,7 +369,18 @@ section{scroll-margin-top:72px}
 .c-tips{display:grid;gap:12px;margin-top:14px}
 .c-tips dt{font:500 10px/1.2 var(--f-mono);letter-spacing:.18em;text-transform:uppercase;color:#8e96a8}
 .c-tips dd{margin-top:4px;font:400 13px/1.55 var(--f-mono);color:var(--text-secondary)}
-.s-foot{max-width:1280px;margin:22px auto 0;font-size:14px;color:var(--text-secondary)}
+.s-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px 28px;max-width:1280px;margin:22px auto 0;font-size:14px;color:var(--text-secondary)}
+.s-list .link{margin-left:6px;color:var(--text-primary)}
+button.link{border:0;padding:0 0 3px;font:inherit;font-weight:500;cursor:pointer}
+/* кнопка «+» у плода: добавить в список покупок, после нажатия галочка */
+.c-add{flex:none;display:grid;place-items:center;width:40px;height:40px;padding:0;border-radius:50%;border:1px solid var(--line-strong);background:none;color:var(--text-primary);cursor:pointer;transition:background-color .35s var(--ease-out),border-color .35s var(--ease-out),color .35s var(--ease-out)}
+.c-add:hover{border-color:var(--accent)}
+.c-add svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.c-add path{transform-origin:12px 12px;transition:opacity .3s var(--ease-out),transform .45s var(--ease-out)}
+.c-add .i-check{opacity:0;transform:scale(.4)}
+.c-add[aria-pressed="true"]{background:var(--leaf);border-color:var(--leaf);color:var(--canvas)}
+.c-add[aria-pressed="true"] .i-plus{opacity:0;transform:rotate(90deg) scale(.4)}
+.c-add[aria-pressed="true"] .i-check{opacity:1;transform:none}
 
 /* 04 вопросы */
 .voprosy .v-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(40px,7vw,120px);max-width:1280px;margin:0 auto;align-items:start}
@@ -427,6 +438,53 @@ section{scroll-margin-top:72px}
 .site-foot .mono{font-size:13px;letter-spacing:.04em}
 .f-slogan{display:block;color:var(--text-primary);font-weight:500}
 
+/* ---------- список покупок ---------- */
+.list-fab{position:fixed;z-index:25;right:var(--gutter);bottom:calc(20px + env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:10px;padding:9px 10px 9px 16px;border-radius:999px;border:1px solid var(--line-strong);background:rgba(23,32,48,.96);color:var(--text-primary);font:500 15px/1 var(--f-body);cursor:pointer;box-shadow:0 14px 40px rgba(0,0,0,.45);animation:fabin .5s var(--ease-out) both;transition:border-color .3s var(--ease-out),transform .3s var(--ease-out)}
+.list-fab:hover{border-color:var(--accent);transform:translateY(-2px)}
+.list-fab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.list-fab b{display:grid;place-items:center;min-width:26px;height:26px;padding:0 7px;border-radius:999px;background:var(--accent);color:#1b1006;font:500 13px/1 var(--f-mono)}
+@keyframes fabin{from{opacity:0;transform:translateY(16px)}}
+.has-list .loader{bottom:92px}
+.has-list .site-foot{padding-bottom:110px}
+html.lock{overflow:hidden;scrollbar-gutter:stable}
+.list-dlg{width:min(460px,calc(100% - 32px));max-width:none;max-height:min(760px,calc(100dvh - 32px));padding:0;border:1px solid var(--line-strong);border-radius:24px;background:linear-gradient(180deg,#1b2539,var(--panel) 45%);color:var(--text-primary);box-shadow:0 30px 90px rgba(0,0,0,.6);color-scheme:dark}
+.list-dlg[open]{display:flex;flex-direction:column;animation:dlgin .4s var(--ease-out)}
+.list-dlg::backdrop{background:rgba(6,9,14,.7)}
+@keyframes dlgin{from{opacity:0;transform:translateY(18px)}}
+.ld-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:22px 22px 14px}
+.ld-kick{font:500 11px/1.3 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-secondary)}
+.ld-head h2{margin-top:8px;font:600 24px/1.15 var(--f-display);letter-spacing:-.01em}
+.ld-x,.ld-del{flex:none;display:grid;place-items:center;width:40px;height:40px;padding:0;border-radius:50%;border:1px solid var(--line-strong);background:none;color:var(--text-primary);cursor:pointer;transition:border-color .3s var(--ease-out)}
+.ld-x:hover,.ld-del:hover{border-color:var(--accent)}
+.ld-x svg,.ld-del svg,.ld-add svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.ld-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 22px 8px}
+.ld-items li{display:flex;align-items:center;gap:12px;padding:6px 0;border-bottom:1px solid var(--line)}
+.ld-items li:first-child{border-top:1px solid var(--line)}
+.ld-items label{flex:1;min-width:0;display:flex;align-items:center;gap:14px;min-height:44px;cursor:pointer;overflow-wrap:anywhere}
+.ld-items input{flex:none;width:20px;height:20px;margin:0;accent-color:var(--leaf);cursor:pointer}
+.ld-items .done span{color:var(--text-secondary);text-decoration:line-through;text-decoration-color:rgba(184,177,163,.7)}
+.ld-del{width:36px;height:36px;border-color:transparent;color:var(--text-secondary)}
+.ld-empty{padding:14px 16px;border:1px dashed var(--line-strong);border-radius:14px;color:var(--text-secondary);font-size:15px}
+.ld-add{display:flex;gap:10px;margin-top:18px}
+.ld-add input{flex:1;min-width:0;height:46px;padding:0 16px;border-radius:999px;border:1px solid var(--line-strong);background:rgba(15,20,28,.6);color:var(--text-primary);font:400 16px/1 var(--f-body)}
+.ld-add input::placeholder{color:#8e96a8}
+.ld-add input:focus-visible{outline-offset:1px}
+.ld-add button{flex:none;display:grid;place-items:center;width:46px;height:46px;padding:0;border-radius:50%;border:0;background:var(--accent);color:#1b1006;cursor:pointer;transition:background-color .3s var(--ease-out)}
+.ld-add button:hover{background:var(--accent-hover)}
+.ld-add button svg{width:18px;height:18px}
+.ld-sub{margin-top:20px;font:500 11px/1.3 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-secondary)}
+.ld-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.ld-chips button{padding:9px 14px;border-radius:999px;border:1px solid var(--line-strong);background:none;color:var(--text-primary);font:400 14px/1 var(--f-body);cursor:pointer;transition:background-color .3s var(--ease-out),color .3s var(--ease-out),border-color .3s var(--ease-out)}
+.ld-chips button:hover{border-color:var(--accent)}
+.ld-chips button[aria-pressed="true"]{background:var(--text-primary);border-color:var(--text-primary);color:var(--canvas)}
+.ld-note{margin-top:18px;font-size:13px;line-height:1.5;color:var(--text-secondary)}
+.ld-foot{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;padding:16px 22px 20px;border-top:1px solid var(--line)}
+.ld-btn{padding:10px 0;border:0;background:none;color:var(--text-primary);font:500 15px/1 var(--f-body);cursor:pointer;text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:5px}
+.ld-btn:hover{text-decoration-color:var(--accent)}
+#listClear{margin-left:auto;color:var(--text-secondary)}
+.ld-status{flex-basis:100%;min-height:1.4em;font:400 13px/1.4 var(--f-mono);color:var(--leaf)}
+.ld-status:empty{min-height:0}
+
 /* ---------- адаптивность ---------- */
 @media (max-width:1024px){
   .svoi-grid,.s-head,.voprosy .v-grid{grid-template-columns:minmax(0,1fr)}
@@ -463,6 +521,17 @@ section{scroll-margin-top:72px}
   .c-txt{display:contents}
   .c-name{grid-area:name;align-self:start;padding-top:8px}
   .c-tips{grid-area:tips;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+  /* рядом с плодом мало места: «+» встаёт под название и подписывается словами */
+  .c-name{flex-direction:column;align-items:flex-start;gap:10px}
+  .c-add{width:auto;height:36px;padding:0 14px 0 10px;border-radius:999px;grid-auto-flow:column;gap:6px;font:500 13px/1 var(--f-body)}
+  .c-add::after{content:"В список"}
+  .c-add[aria-pressed="true"]::after{content:"В списке"}
+  /* список покупок на телефоне выезжает снизу во всю ширину */
+  .list-dlg{width:100%;max-height:88dvh;margin:auto 0 0;border-radius:24px 24px 0 0;border-width:1px 0 0;padding-bottom:env(safe-area-inset-bottom)}
+  .ld-head{padding:20px 16px 12px}
+  .ld-body{padding:0 16px 8px}
+  .ld-foot{padding:14px 16px 18px}
+  .list-fab{right:16px}
   .qa-q button{gap:14px;padding:22px 0}
   .qa-n{width:auto}
   .qa-a p{margin:0 0 24px}
@@ -476,6 +545,9 @@ section{scroll-margin-top:72px}
   .link{background-position:0 calc(100% - 8px)}
   .months button{min-height:44px;padding:0 12px}
   .sprig{filter:none}
+  .c-add,.ld-x,.ld-del{min-width:44px;min-height:44px}
+  .ld-chips button{min-height:44px}
+  .ld-btn{min-height:44px}
 }
 
 /* ---------- «меньше движения»: всё сразу в конечном виде ---------- */
@@ -761,7 +833,10 @@ section{scroll-margin-top:72px}
         <li class="rv" style="--d:7"><article class="card" style="--c:#f5e27a59"><div class="c-top"><span class="c-n">05</span><span class="c-lat" lang="la">Cydonia oblonga</span></div><div class="c-art"><img src="assets/fruits/quince.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><div class="c-name"><h3>Айва</h3></div><dl class="c-tips"><div><dt>Выбрать</dt><dd>Жёлтая и душистая, пушок легко стирается.</dd></div><div><dt>Хранить</dt><dd>В прохладе до двух месяцев.</dd></div><div><dt>Подать</dt><dd>Варенье дольками или запечь к мясу.</dd></div></dl></div></article></li>
         <li class="rv" style="--d:8"><article class="card" style="--c:#f59a3a59"><div class="c-top"><span class="c-n">06</span><span class="c-lat" lang="la">Cucurbita maxima</span></div><div class="c-art"><img src="assets/fruits/pumpkin.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><div class="c-name"><h3>Тыква</h3></div><dl class="c-tips"><div><dt>Выбрать</dt><dd>Глухой звук при стуке и сухой хвостик.</dd></div><div><dt>Хранить</dt><dd>Целая лежит в прохладе несколько месяцев.</dd></div><div><dt>Подать</dt><dd>Гапама: запечь с рисом и сухофруктами.</dd></div></dl></div></article></li>
       </ul>
-      <p class="s-foot rv" style="--d:6">Список общий, по сезону для юга России.</p>
+      <div class="s-foot rv" style="--d:6">
+        <p>Список общий, по сезону для юга России.</p>
+        <p class="s-list" hidden>Нажмите «+», чтобы добавить плод в список покупок. <button type="button" class="link" data-list-open>Открыть список</button></p>
+      </div>
     </section>
 
     <section class="sec voprosy rvc" id="voprosy">
@@ -821,6 +896,36 @@ section{scroll-margin-top:72px}
   <p><span class="f-slogan">У нас всегда всё есть.</span> Михайловск, ЖР «Гармония», ул. Михаила Калашникова, 43</p>
   <p class="mono">Каждый день с 8:00 до 21:00 · © 2026</p>
 </footer>
+
+<!-- список покупок: кнопка появляется, когда в списке что-то есть; без JS ничего этого нет -->
+<button type="button" class="list-fab" id="listFab" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9.5h17l-1.7 9.1a2 2 0 0 1-2 1.6H7.2a2 2 0 0 1-2-1.6Z"/><path d="M8.5 9.5 12 4l3.5 5.5M9.5 13.5v3M14.5 13.5v3"/></svg><span>Список</span><b id="listCount">0</b></button>
+<dialog class="list-dlg" id="listDlg" aria-labelledby="listTitle">
+  <div class="ld-head">
+    <div>
+      <p class="ld-kick">У Армена · Калашникова, 43</p>
+      <h2 id="listTitle">Список покупок</h2>
+    </div>
+    <button type="button" class="ld-x" id="listClose" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <div class="ld-body">
+    <ul class="ld-items" id="listItems"></ul>
+    <p class="ld-empty" id="listEmpty">Пока пусто. Нажмите «+» у плода в «Сезоне» или выберите частые покупки ниже.</p>
+    <form class="ld-add" id="listForm">
+      <label class="sr" for="listInput">Добавить своё</label>
+      <input id="listInput" type="text" maxlength="60" placeholder="Своё, например: картошка 2 кг" autocomplete="off" enterkeyhint="done">
+      <button type="submit" aria-label="Добавить в список"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+    </form>
+    <p class="ld-sub" id="chipsTitle">Часто берут</p>
+    <div class="ld-chips" id="listChips" role="group" aria-labelledby="chipsTitle"></div>
+    <p class="ld-note">Список хранится только в этом браузере. В магазине отмечайте, что уже взяли.</p>
+  </div>
+  <div class="ld-foot">
+    <button type="button" class="btn btn-sm" id="listShare">Поделиться</button>
+    <button type="button" class="ld-btn" id="listCopy">Скопировать</button>
+    <button type="button" class="ld-btn" id="listClear">Очистить</button>
+    <p class="ld-status" id="listStatus" role="status"></p>
+  </div>
+</dialog>
 
 <script>
 (() => {
@@ -1209,6 +1314,27 @@ holdBtn.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter
 holdBtn.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); endHold(); } });
 holdBtn.addEventListener('contextmenu', e => e.preventDefault());
 
+/* ---------- список покупок: данные (окно и кнопки ниже, после «Сезона») ---------- */
+const LIST_KEY = 'uarmena:list:v1';   // у всех сайтов на petrosadixanyan-design.github.io одно хранилище, поэтому приставка
+const LIST_MAX = 60;
+const norm = s => s.trim().replace(/\s+/g, ' ').toLowerCase();
+function loadList() {
+  try {
+    const v = JSON.parse(localStorage.getItem(LIST_KEY) || '[]');
+    if (Array.isArray(v)) {
+      return v.filter(x => x && typeof x.n === 'string' && x.n.trim())
+        .slice(0, LIST_MAX).map(x => ({ n: x.n.trim().slice(0, 60), d: !!x.d }));
+    }
+  } catch (e) { /* хранилище закрыто или испорчено: начинаем с пустого списка */ }
+  return [];
+}
+function saveList() {
+  try { localStorage.setItem(LIST_KEY, JSON.stringify(list)); } catch (e) { /* без хранилища список живёт до закрытия вкладки */ }
+}
+let list = loadList();
+const inList = name => list.some(x => norm(x.n) === norm(name));
+const ADD_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-plus" d="M12 5v14M5 12h14"/><path class="i-check" d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
 /* ---------- сезон: список сам меняется каждый месяц, соседние месяцы можно посмотреть ---------- */
 const MONTHS = ['январе', 'феврале', 'марте', 'апреле', 'мае', 'июне', 'июле', 'августе', 'сентябре', 'октябре', 'ноябре', 'декабре'];
 const MONTHS_SHORT = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
@@ -1290,7 +1416,11 @@ function fillSeason(m, first) {
     img.src = 'assets/fruits/' + key + '.svg';
     art.append(img);
     const txt = mk('div', 'c-txt'), head = mk('div', 'c-name'), tips = mk('dl', 'c-tips');
-    head.append(mk('h3', '', name));
+    const add = mk('button', 'c-add');
+    add.type = 'button'; add.dataset.name = name; add.innerHTML = ADD_ICON;
+    add.setAttribute('aria-label', 'В список покупок: ' + name);
+    add.setAttribute('aria-pressed', String(inList(name)));
+    head.append(mk('h3', '', name), add);
     [['Выбрать', pick], ['Хранить', keep], ['Подать', serve]].forEach(([k, v]) => {
       const row = mk('div');
       row.append(mk('dt', '', k), mk('dd', '', v));
@@ -1326,6 +1456,117 @@ function centerMonth() {
 }
 centerMonth();
 addEventListener('resize', centerMonth);
+
+/* ---------- список покупок: окно, кнопки, «поделиться» ---------- */
+const STAPLES = ['Картофель', 'Лук', 'Морковь', 'Помидоры', 'Огурцы', 'Зелень', 'Лимоны', 'Бананы'];
+const SITE_URL = 'https://petrosadixanyan-design.github.io/u-armena/';
+const fab = $('#listFab'), fabCount = $('#listCount'), dlg = $('#listDlg');
+const itemsUl = $('#listItems'), emptyP = $('#listEmpty'), listForm = $('#listForm'), listInput = $('#listInput');
+const chipsBox = $('#listChips'), shareBtn = $('#listShare'), copyBtn = $('#listCopy'), clearBtn = $('#listClear'), statusP = $('#listStatus');
+const canShare = () => COARSE.matches && !!navigator.share;   // на телефоне системное «Поделиться», на компьютере сразу Telegram
+let sayTimer = null, clearArm = null;
+function say(text) {
+  statusP.textContent = text;
+  clearTimeout(sayTimer);
+  sayTimer = setTimeout(() => { statusP.textContent = ''; }, 2600);
+}
+function addItem(name) {
+  name = name.trim().replace(/\s+/g, ' ').slice(0, 60);
+  if (!name) return false;
+  if (inList(name)) { say('Уже в списке'); return false; }
+  if (list.length >= LIST_MAX) { say('Список полный'); return false; }
+  list.push({ n: name.charAt(0).toUpperCase() + name.slice(1), d: false });
+  return true;
+}
+function toggleItem(name) {
+  if (inList(name)) list = list.filter(x => norm(x.n) !== norm(name));
+  else if (!addItem(name)) return;
+  listChanged();
+}
+function listChanged(focus) { saveList(); renderList(focus); }
+/* focus: что снова поставить в фокус после перерисовки ('cb' или 'del' и номер строки) */
+function renderList(focus) {
+  const left = list.filter(x => !x.d).length;
+  fab.hidden = !list.length;
+  d.body.classList.toggle('has-list', list.length > 0);
+  fabCount.textContent = left;
+  fab.setAttribute('aria-label', 'Список покупок, осталось купить: ' + left);
+  $$('.c-add', cardsUl).forEach(b => b.setAttribute('aria-pressed', String(inList(b.dataset.name))));
+  $$('button', chipsBox).forEach(b => b.setAttribute('aria-pressed', String(inList(b.textContent))));
+  itemsUl.textContent = '';
+  list.forEach((x, i) => {
+    const li = mk('li', x.d ? 'done' : '');
+    const label = mk('label'), cb = mk('input');
+    cb.type = 'checkbox'; cb.checked = x.d;
+    cb.addEventListener('change', () => { x.d = cb.checked; listChanged({ kind: 'cb', i }); });
+    label.append(cb, mk('span', '', x.n));
+    const del = mk('button', 'ld-del');
+    del.type = 'button'; del.setAttribute('aria-label', 'Убрать: ' + x.n);
+    del.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>';
+    del.addEventListener('click', () => { list.splice(i, 1); listChanged({ kind: 'del', i }); });
+    li.append(label, del);
+    itemsUl.append(li);
+  });
+  emptyP.hidden = list.length > 0;
+  if (focus) {
+    const row = itemsUl.children[Math.min(focus.i, itemsUl.children.length - 1)];
+    const el = row ? (focus.kind === 'cb' ? $('input', row) : $('.ld-del', row)) : $('#listClose');
+    el.focus({ preventScroll: true });
+  }
+}
+function listText() {
+  const left = list.filter(x => !x.d), items = left.length ? left : list;
+  return 'Купить у Армена (Калашникова, 43):\n' + items.map(x => '• ' + x.n).join('\n');
+}
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); say('Скопировано'); }
+  catch (e) { say('Не получилось скопировать'); }
+}
+function disarmClear() { clearTimeout(clearArm); clearArm = null; clearBtn.textContent = 'Очистить'; }
+function openList() {
+  renderList();
+  shareBtn.textContent = canShare() ? 'Поделиться' : 'Отправить в Telegram';
+  if (!dlg.open) { dlg.showModal(); d.documentElement.classList.add('lock'); }
+}
+
+STAPLES.forEach(s => {
+  const b = mk('button', '', s);
+  b.type = 'button';
+  b.addEventListener('click', () => toggleItem(s));
+  chipsBox.append(b);
+});
+cardsUl.addEventListener('click', e => { const b = e.target.closest('.c-add'); if (b) toggleItem(b.dataset.name); });
+fab.addEventListener('click', openList);
+$$('[data-list-open]').forEach(b => b.addEventListener('click', openList));
+$('#listClose').addEventListener('click', () => dlg.close());
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });   // нажатие по затемнению вокруг окна
+dlg.addEventListener('close', () => { d.documentElement.classList.remove('lock'); disarmClear(); });
+listForm.addEventListener('submit', e => {
+  e.preventDefault();
+  if (addItem(listInput.value)) { listInput.value = ''; listChanged(); }
+});
+shareBtn.addEventListener('click', async () => {
+  if (!list.length) { say('Список пока пуст'); return; }
+  const text = listText();
+  if (canShare()) {
+    try { await navigator.share({ text }); } catch (e) { if (e.name !== 'AbortError') copyText(text); }
+    return;
+  }
+  window.open('https://t.me/share/url?url=' + encodeURIComponent(SITE_URL) + '&text=' + encodeURIComponent(text), '_blank', 'noopener');
+});
+copyBtn.addEventListener('click', () => { if (list.length) copyText(listText()); else say('Список пока пуст'); });
+clearBtn.addEventListener('click', () => {
+  if (!list.length) return;
+  if (!clearArm) { clearBtn.textContent = 'Точно очистить?'; clearArm = setTimeout(disarmClear, 3000); return; }
+  disarmClear();
+  list = [];
+  listChanged();
+  say('Список очищен');
+});
+/* список открыт в другой вкладке и там поменялся */
+addEventListener('storage', e => { if (e.key === LIST_KEY) { list = loadList(); renderList(); } });
+$('.s-list').hidden = false;
+renderList();
 
 /* ---------- вопросы: ответ раскрывается по нажатию, сначала открыт первый ---------- */
 $$('.qa-item').forEach((item, i) => {
