@@ -46,6 +46,7 @@ img{display:block;max-width:100%;height:auto}
 a{color:inherit}
 h1,h2,h3,p,ul,dl,dd,figure{margin:0}
 ul{padding:0;list-style:none}
+[hidden]{display:none!important}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
 .skip{position:fixed;left:12px;top:-60px;z-index:50;background:var(--accent);color:#1b1006;padding:10px 16px;border-radius:10px;font-weight:500;text-decoration:none;transition:top .3s var(--ease-out)}
@@ -90,6 +91,13 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 .links a{color:var(--text-secondary);text-decoration:none;font-size:15px;transition:color .3s var(--ease-out)}
 .links a:hover{color:var(--text-primary)}
 @media (max-width:960px){.links{display:none}}
+/* «открыто сейчас»: цветная точка и строка (в меню коротко, в блоке 05 полностью) */
+.brand .open-now{letter-spacing:.1em;white-space:nowrap}
+.open-now i{position:relative;display:inline-block;width:7px;height:7px;margin-right:8px;vertical-align:1px;border-radius:50%;background:var(--st,#7d8595)}
+.open-now[data-s="open"]{--st:var(--leaf)}
+.open-now[data-s="soon"]{--st:var(--accent)}
+.open-now[data-s="open"] i::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--leaf);animation:ping 2.8s var(--ease-out) infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.7}70%,100%{transform:scale(2.6);opacity:0}}
 
 /* ---------- главный экран ---------- */
 .hero{position:relative;z-index:1;height:540vh}
@@ -418,7 +426,9 @@ section{scroll-margin-top:72px}
   .qa-q button{gap:14px;padding:22px 0}
   .qa-n{width:auto}
   .qa-a p{margin:0 0 24px}
-  .brand small{display:none}
+  .brand .b-sub{display:none}
+  .brand .open-now{letter-spacing:.04em}
+  .nav{gap:12px}
   .p-shade{background:linear-gradient(rgba(15,20,28,.92),rgba(15,20,28,.75) 60%,rgba(15,20,28,.94))}
 }
 @media (pointer:coarse){
@@ -465,7 +475,7 @@ section{scroll-margin-top:72px}
 <header class="nav" id="nav">
   <a class="brand" href="#top" aria-label="У Армена, в начало страницы">
     <svg class="mark" id="navMark" aria-hidden="true"><use href="#swirl"/></svg>
-    <span><b>У Армена</b><small>овощи · фрукты</small></span>
+    <span><b>У Армена</b><small class="b-sub">овощи · фрукты</small><small class="open-now" data-open="short" hidden><i aria-hidden="true"></i><span></span></small></span>
   </a>
   <nav aria-label="Разделы">
     <ul class="links">
@@ -755,7 +765,7 @@ section{scroll-margin-top:72px}
           <g class="pin"><use href="#swirl" x="306" y="16" width="44" height="44"/></g>
           <text x="282" y="80">У АРМЕНА</text>
         </svg>
-        <ul class="addr rv" style="--d:3"><li>ЖР «Гармония», Михайловск</li><li>Каждый день с 8:00 до 21:00</li></ul>
+        <ul class="addr rv" style="--d:3"><li>ЖР «Гармония», Михайловск</li><li>Каждый день с 8:00 до 21:00</li><li class="open-now" data-open="long" hidden><i aria-hidden="true"></i><span></span></li></ul>
         <div class="ctas rv" style="--d:4">
           <a class="btn" href="https://yandex.ru/maps/?text=%D0%9C%D0%B8%D1%85%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D1%81%D0%BA%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%D0%B0%20%D0%9A%D0%B0%D0%BB%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%D0%B0%2C%2043" target="_blank" rel="noopener">Построить маршрут</a>
           <a class="link" href="https://2gis.ru/stavropol/firm/70000001063309074" target="_blank" rel="noopener">Открыть в 2ГИС</a>
@@ -1277,6 +1287,55 @@ $$('.qa-item').forEach((item, i) => {
   set(i === 0);
   btn.addEventListener('click', () => set(!item.classList.contains('open')));
 });
+
+/* ---------- «открыто сейчас»: по часам работы магазина ---------- */
+const HOURS = { open: 8 * 60, close: 21 * 60 };   // каждый день с 8:00 до 21:00, в минутах от полуночи
+const CLOSED_DAYS = [];   // дни, когда магазин закрыт, вида '01-01' (месяц-день); Армен таких пока не называл
+const SOON = 30;          // за сколько минут писать «закроемся через…» и «откроемся через…»
+const MONTHS_OF = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+const hhmm = m => Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0');
+/* Михайловск живёт по московскому времени (UTC+3, без перевода часов), а гость может быть в другом поясе */
+function mskDay(ms) {
+  const t = new Date(ms + 3 * 3600e3);
+  const mo = t.getUTCMonth(), day = t.getUTCDate();
+  return { mo, day, md: String(mo + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0'), min: t.getUTCHours() * 60 + t.getUTCMinutes() };
+}
+function openState(now) {
+  const t = mskDay(now), shut = CLOSED_DAYS.includes(t.md);
+  if (!shut && t.min >= HOURS.open && t.min < HOURS.close) {
+    const left = HOURS.close - t.min;
+    if (left <= SOON) return { s: 'soon', short: 'Открыто ещё ' + left + ' мин', long: 'Закроемся через ' + left + ' мин' };
+    return { s: 'open', short: 'Открыто до ' + hhmm(HOURS.close), long: 'Сейчас открыто, до ' + hhmm(HOURS.close) };
+  }
+  // закрыто: ближайший рабочий день (сегодня утром, завтра или позже)
+  let ahead = !shut && t.min < HOURS.open ? 0 : 1;
+  while (ahead < 8 && CLOSED_DAYS.includes(mskDay(now + ahead * 864e5).md)) ahead++;
+  if (ahead === 0 && HOURS.open - t.min <= SOON) return { s: 'closed', short: 'Закрыто до ' + hhmm(HOURS.open), long: 'Откроемся через ' + (HOURS.open - t.min) + ' мин' };
+  const n = mskDay(now + ahead * 864e5);
+  const when = ahead === 0 ? '' : ahead === 1 ? 'завтра ' : n.day + ' ' + MONTHS_OF[n.mo] + ' ';
+  return {
+    s: 'closed',
+    short: shut ? 'Сегодня закрыто' : ahead > 1 ? 'Сейчас закрыто' : 'Закрыто до ' + hhmm(HOURS.open),
+    long: (shut ? 'Сегодня выходной' : 'Сейчас закрыто') + ', откроемся ' + when + 'в ' + hhmm(HOURS.open)
+  };
+}
+const openEls = $$('[data-open]'), brandSub = $('#nav .b-sub');
+let openShown = '';
+function showOpen() {
+  if (d.hidden) return;
+  const st = openState(Date.now()), key = st.s + st.short + st.long;
+  if (key === openShown) return;
+  openShown = key;
+  openEls.forEach(el => {
+    el.dataset.s = st.s;
+    $('span', el).textContent = el.dataset.open === 'long' ? st.long : st.short;
+    el.hidden = false;
+  });
+  brandSub.hidden = true;
+}
+showOpen();
+setInterval(showOpen, 30000);
+d.addEventListener('visibilitychange', showOpen);
 
 /* ---------- «меньше движения»: закрепить конечные состояния и вернуть обратно ---------- */
 function pinToFinalStates() {
