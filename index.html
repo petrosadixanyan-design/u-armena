@@ -64,6 +64,7 @@ main:focus{outline:none}
 @keyframes drift2{to{transform:translate3d(-16vmax,-12vmax,0)}}
 @keyframes drift3{to{transform:translate3d(-22vmax,10vmax,0)}}
 body.paused *,body.paused *::before,body.paused *::after{animation-play-state:paused!important}
+.hero-on .env i{animation-play-state:paused}
 
 /* ---------- знак: спираль вечности ---------- */
 .mark{width:28px;height:28px;fill:currentColor;flex:none}
@@ -97,9 +98,14 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 .poster-end{opacity:0}
 #hero{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:translateZ(0);will-change:transform;transition:opacity .9s var(--ease-out)}
 .stage.video-ready #hero{opacity:1}
+#heroCanvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;display:none;transform:translateZ(0);transition:opacity .9s var(--ease-out)}
+.stage.use-frames #hero{display:none}
+.stage.use-frames #heroCanvas{display:block}
+.stage.use-frames.video-ready #heroCanvas{opacity:1}
+.stage.video-failed #heroCanvas{display:none}
 .stage.video-failed #hero{display:none}
 .scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(8,11,16,.5),rgba(8,11,16,0) 20%),radial-gradient(ellipse 120% 90% at 50% 45%,rgba(10,10,18,0) 35%,rgba(10,10,18,.62) 100%)}
-.band{position:absolute;left:var(--gutter);top:50%;width:min(52vw,660px);transform:translateY(-50%);opacity:0;isolation:isolate;text-shadow:var(--tshadow)}
+.band{position:absolute;left:var(--gutter);top:50%;width:min(52vw,660px);transform:translateY(-50%);opacity:0;isolation:isolate;text-shadow:var(--tshadow);will-change:opacity}
 .band.off{visibility:hidden}
 .band::before{content:"";position:absolute;inset:-34% -30% -34% -40%;z-index:-1;pointer-events:none;opacity:calc(.25 + .75*var(--k,1));background:radial-gradient(ellipse 62% 56% at 42% 50%,rgba(5,7,12,var(--pk,.66)) 0%,rgba(5,7,12,calc(var(--pk,.66)*.66)) 46%,rgba(5,7,12,0) 76%)}
 .band.right{left:auto;right:var(--gutter);text-align:right}
@@ -170,6 +176,14 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .b4 .ctas{gap:16px}
   .loader{right:20px;bottom:calc(10vh + env(safe-area-inset-bottom))}
   .cue{bottom:calc(10vh + env(safe-area-inset-bottom))}
+  /* у полос уже есть сплошное затемнение, поэтому тень букв короче: её легче рисовать */
+  .band{text-shadow:0 1px 2px rgba(5,7,12,.9),0 2px 12px rgba(5,7,12,.72)}
+}
+/* устройства с касанием: без размытия фона под плашками и меню, оно дорого пересчитывается при прокрутке */
+@media (pointer: coarse){
+  .chip,.sec .photo figcaption{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(8,11,17,.78)}
+  .nav.solid{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(15,20,28,.97)}
+  .sec .pollen i{box-shadow:none}
 }
 
 /* статичный главный экран: «меньше движения», телефон боком, экономия трафика */
@@ -393,6 +407,7 @@ section{scroll-margin-top:72px}
       <div class="poster" id="poster"></div>
       <div class="poster-end" id="posterEnd"></div>
       <video id="hero" preload="none" muted playsinline aria-hidden="true" tabindex="-1"></video>
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
       <div class="scrim" aria-hidden="true"></div>
 
       <div class="band b1" data-a="0" data-b="0.24">
@@ -628,12 +643,14 @@ $$('[data-split]').forEach((el, n) => {
 const hero = $('#top'), stage = $('#stage'), video = $('#hero');
 const posterLayer = $('#poster'), posterEnd = $('#posterEnd');
 const loader = $('#loader'), cue = $('#cue');
-/* два видео: широкое для компьютера и узкое вертикальное (1,8 МБ) для телефона стоя */
+/* компьютер: широкое видео, которое перематывается прокруткой.
+   телефон стоя: 121 готовый кадр (1,5 МБ), которые рисуются на холсте:
+   слабым телефонам нарисовать картинку намного легче, чем перемотать видео */
 const PORTRAIT = matchMedia('(max-width: 720px), (orientation: portrait) and (max-width: 1024px), (orientation: portrait) and (pointer: coarse)');
 const COARSE = matchMedia('(pointer: coarse)');
 const KINDS = {
   d: { video: 'assets/hero-scrub.mp4', bytes: 6894356, poster: 'assets/hero-poster.jpg', ending: 'assets/hero-ending.jpg' },
-  m: { video: 'assets/hero-scrub-m.mp4', bytes: 1781094, poster: 'assets/hero-poster-m.jpg', ending: 'assets/hero-ending-m.jpg' }
+  m: { frames: 121, frame: i => 'assets/m/f' + String(i).padStart(3, '0') + '.webp', poster: 'assets/m/f000.webp', ending: 'assets/hero-ending-m.jpg' }
 };
 const wantKind = () => (PORTRAIT.matches ? 'm' : 'd');
 const bands = $$('.band').map((el, i, all) => ({
@@ -687,14 +704,18 @@ function tick(now) {
   shown += (target - shown) * (1 - Math.pow(1 - 0.16, dt / 16.667));
   if (Math.abs(target - shown) < 0.0005) { shown = target; rafId = null; lastTick = 0; }
   else rafId = requestAnimationFrame(tick);
-  requestSeek(shown * video.duration);
+  if (heroKind === 'm') drawFrame(shown); else requestSeek(shown * video.duration);
   updateCaptions(shown);
 }
 function onScroll() {
   target = heroProgress();
   if (rafId === null && heroOnScreen) rafId = requestAnimationFrame(tick);
 }
-new IntersectionObserver(es => { heroOnScreen = es[0].isIntersecting; if (heroOnScreen) onScroll(); }).observe(hero);
+new IntersectionObserver(es => {
+  heroOnScreen = es[0].isIntersecting;
+  d.body.classList.toggle('hero-on', heroOnScreen);   // фон под главным экраном не виден: его анимация на паузе
+  if (heroOnScreen) onScroll();
+}).observe(hero);
 
 /* загрузка видео целиком (Blob) с кольцом прогресса */
 let heroKind = null, loadToken = 0, blobUrl = null, rampDone = false;
@@ -747,23 +768,98 @@ async function loadHeroBlob(token) {
     else land();
   }, { once: true });
 }
+/* кадры для телефона: холст размером с экран, рисуем только когда кадр сменился */
+const canvas = $('#heroCanvas'), c2d = canvas.getContext('2d', { alpha: false });
+let frames = [], framesLoaded = 0, lastDrawn = -1;
+function sizeCanvas() {
+  // кадр 450×800 почти совпадает с экраном телефона в точках, поэтому рисуем 1:1 и не тратим силы на лишние пиксели
+  const w = Math.max(1, Math.round(stage.clientWidth)), h = Math.max(1, Math.round(stage.clientHeight));
+  if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; lastDrawn = -1; }
+}
+function drawFrame(p) {
+  const n = frames.length;
+  if (!n) return;
+  const want = Math.round(clamp(p, 0, 1) * (n - 1));
+  let i = -1;
+  for (let r = 0; r < n; r++) {   // ближайший уже загруженный кадр
+    if (want - r >= 0 && frames[want - r]) { i = want - r; break; }
+    if (want + r < n && frames[want + r]) { i = want + r; break; }
+  }
+  if (i < 0 || i === lastDrawn) return;
+  lastDrawn = i;
+  const img = frames[i], cw = canvas.width, ch = canvas.height;
+  const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+  const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
+  c2d.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+}
+function loadFrames(token) {
+  const K = KINDS.m, n = K.frames;
+  frames = new Array(n).fill(null); framesLoaded = 0; lastDrawn = -1;
+  // сначала каждый 8-й кадр: вся история видна сразу, потом заполняем промежутки
+  const order = [];
+  for (let i = 0; i < n; i += 8) order.push(i);
+  if (order[order.length - 1] !== n - 1) order.push(n - 1);
+  const firstPass = order.length;
+  for (let i = 0; i < n; i++) if (!order.includes(i)) order.push(i);
+  let next = 0, active = 0, failed = 0, readyMarked = false;
+  sizeCanvas();
+  const pump = () => {
+    while (active < 6 && next < order.length) {
+      const i = order[next++];
+      active++;
+      const img = new Image();
+      img.decoding = 'async';
+      img.onload = () => {
+        active--;
+        if (token !== loadToken) return;
+        frames[i] = img; framesLoaded++;
+        loader.style.setProperty('--ld', Math.round(126 * (1 - framesLoaded / n)));
+        if (!readyMarked && framesLoaded >= firstPass) {
+          readyMarked = true;
+          drawFrame(shown);
+          stage.classList.add('video-ready');
+        } else if (readyMarked) {
+          const want = Math.round(clamp(shown, 0, 1) * (n - 1));
+          if (Math.abs(i - want) < Math.abs(lastDrawn - want)) { lastDrawn = -1; drawFrame(shown); }
+        }
+        if (framesLoaded === n) setTimeout(() => loader.classList.add('gone'), 400);
+        pump();
+      };
+      img.onerror = () => {
+        active--;
+        if (token !== loadToken) return;
+        if (++failed > 12 || i === 0) failVideo(token); else pump();
+      };
+      img.src = K.frame(i);
+    }
+  };
+  pump();
+}
+
 function initHero(kind) {
   if (heroKind === kind) return;
   heroKind = kind;
   const token = ++loadToken;
   const K = KINDS[kind];
-  // сброс прошлого видео: телефон повернули или окно сузили
+  // сброс прошлого режима: телефон повернули или окно сузили
   seekBusy = false; pendingTime = null; videoFailed = false; endOp = -1;
   stage.classList.remove('video-ready', 'video-failed');
+  stage.classList.toggle('use-frames', kind === 'm');
   loader.classList.remove('gone');
   loader.style.setProperty('--ld', 126);
   posterEnd.style.opacity = '0';
   posterEnd.style.backgroundImage = '';
   if (video.getAttribute('src')) { video.removeAttribute('src'); video.load(); }
   if (blobUrl) { URL.revokeObjectURL(blobUrl); blobUrl = null; }
+  if (kind !== 'm') { frames = []; lastDrawn = -1; }
   posterLayer.style.backgroundImage = "url('" + K.poster + "')";
   let started = false;
-  const start = () => { if (started || token !== loadToken) return; started = true; loadHeroBlob(token).catch(() => failVideo(token)); };
+  const start = () => {
+    if (started || token !== loadToken) return;
+    started = true;
+    if (kind === 'm') loadFrames(token);
+    else loadHeroBlob(token).catch(() => failVideo(token));
+  };
   const img = new Image();
   img.onload = start; img.onerror = start;
   img.src = K.poster;
@@ -833,7 +929,12 @@ function pageScroll() {
   if (Math.abs(g - lastGrow) > 0.002 || (g !== lastGrow && (g === 0 || g === 1))) { lastGrow = g; branchPath.style.strokeDashoffset = (1 - g).toFixed(4); }
 }
 addEventListener('scroll', () => { if (psRaf === null) psRaf = requestAnimationFrame(pageScroll); }, { passive: true });
-addEventListener('resize', () => { measurePage(); if (scrubOn) onScroll(); pageScroll(); });
+addEventListener('resize', () => {
+  measurePage();
+  if (scrubOn && heroKind === 'm') { sizeCanvas(); drawFrame(shown); }
+  if (scrubOn) onScroll();
+  pageScroll();
+});
 
 /* ---------- появления и «живые» элементы только на экране ---------- */
 const io = new IntersectionObserver(es => es.forEach(e => {
