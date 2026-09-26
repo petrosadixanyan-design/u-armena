@@ -382,8 +382,8 @@ section{scroll-margin-top:72px}
 .card{position:relative;isolation:isolate;height:100%;display:grid;grid-template-areas:"top" "art" "txt";grid-template-rows:auto auto 1fr;padding:20px 24px 26px;border-radius:22px;background:linear-gradient(180deg,#1b2539,var(--panel) 55%);border:1px solid var(--line);overflow:hidden;transition:transform .5s var(--ease-out),border-color .5s var(--ease-out)}
 .card:hover{transform:translateY(-4px);border-color:var(--line-strong)}
 /* край карточки светится там, где рядом курсор (координаты --lx/--ly ставит JS) */
-.card::after{content:"";position:absolute;inset:-1px;z-index:3;border-radius:inherit;padding:1px;pointer-events:none;background:radial-gradient(220px circle at var(--lx,-999px) var(--ly,-999px),rgba(255,190,122,.6),rgba(255,190,122,0) 70%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:0;transition:opacity .5s var(--ease-out)}
-@media (hover:hover) and (pointer:fine){.cards:hover .card::after{opacity:1}}
+.card::after,.pt::after{content:"";position:absolute;inset:-1px;z-index:3;border-radius:inherit;padding:1px;pointer-events:none;background:radial-gradient(220px circle at var(--lx,-999px) var(--ly,-999px),rgba(255,190,122,.6),rgba(255,190,122,0) 70%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:0;transition:opacity .5s var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.cards:hover .card::after,.pr-grid:hover .pt::after{opacity:1}}
 .c-top{grid-area:top;display:flex;justify-content:space-between;align-items:baseline;gap:12px;font:500 11px/1.3 var(--f-mono);letter-spacing:.14em;color:var(--text-secondary)}
 .c-n{color:var(--accent)}
 .c-lat{font:italic 400 13px/1.3 var(--f-body);letter-spacing:.01em;text-align:right}
@@ -411,6 +411,47 @@ button.link{border:0;padding:0 0 3px;font:inherit;font-weight:500;cursor:pointer
 .c-add[aria-pressed="true"]{background:var(--leaf);border-color:var(--leaf);color:var(--canvas)}
 .c-add[aria-pressed="true"] .i-plus{opacity:0;transform:rotate(90deg) scale(.4)}
 .c-add[aria-pressed="true"] .i-check{opacity:1;transform:none}
+
+/* 04 весь прилавок */
+.no-js .prilavok,.no-js .js-only{display:none}
+.pr-tools{max-width:1280px;margin:52px auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px}
+.pr-seg{display:flex;gap:2px;padding:4px;border:1px solid var(--line);border-radius:999px;background:rgba(23,32,48,.6);scrollbar-width:none}
+.pr-seg::-webkit-scrollbar{display:none}
+.pr-seg button{flex:none;font:500 14px/1 var(--f-body);color:var(--text-secondary);background:none;border:0;border-radius:999px;padding:10px 14px;cursor:pointer;white-space:nowrap;transition:color .3s var(--ease-out),background-color .3s var(--ease-out)}
+.pr-seg button:hover{color:var(--text-primary);background:rgba(244,239,228,.06)}
+.pr-seg button[aria-pressed="true"]{background:var(--text-primary);color:var(--canvas)}
+.pr-seg button b{margin-left:6px;font:500 11px/1 var(--f-mono);opacity:.6}
+.pr-search{position:relative;flex:1 1 240px;display:flex}
+.pr-search svg{position:absolute;left:16px;top:50%;width:18px;height:18px;margin-top:-9px;fill:none;stroke:var(--text-secondary);stroke-width:1.8;stroke-linecap:round;pointer-events:none}
+.pr-search input{width:100%;height:46px;padding:0 16px 0 44px;border-radius:999px;border:1px solid var(--line-strong);background:rgba(15,20,28,.6);color:var(--text-primary);font:400 16px/1 var(--f-body)}
+.pr-search input::placeholder{color:#8e96a8}
+.pr-search input:focus-visible{outline-offset:1px}
+.pr-count{max-width:1280px;margin:24px auto 14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary)}
+.pr-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:1280px;margin:0 auto;transition:opacity .2s var(--ease-out)}
+.pr-grid.out{opacity:0}
+.pt{position:relative;isolation:isolate;display:grid;grid-template-columns:92px minmax(0,1fr);gap:16px;align-items:start;padding:16px 16px 18px 12px;border-radius:18px;background:linear-gradient(180deg,#1b2539,var(--panel) 70%);border:1px solid var(--line);transition:border-color .45s var(--ease-out)}
+.pt:hover{border-color:var(--line-strong)}
+.pt.pop{animation:cardin .6s var(--ease-out) both;animation-delay:calc(var(--i,0)*35ms)}
+.pt-art{position:relative;display:grid;place-items:center;height:92px}
+.pt-art::before{content:"";position:absolute;z-index:-1;inset:2px;border-radius:50%;background:radial-gradient(closest-side,var(--c),rgba(0,0,0,0));opacity:.75}
+.pt-art img{width:88px;height:88px;transition:transform .7s var(--ease-out)}
+.pt:hover .pt-art img{transform:translateY(-4px) rotate(-3deg)}
+.pt-name{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.pt h3{padding-top:6px;font:600 16px/1.25 var(--f-display);letter-spacing:-.005em;overflow-wrap:anywhere}
+.pt .c-add{width:36px;height:36px}
+.pt-lat{margin-top:3px;font:italic 400 12.5px/1.3 var(--f-body);color:#8e96a8}
+.pt-src{margin-top:10px;display:grid;gap:5px}
+.pt-src li{position:relative;padding-left:14px;font:400 12px/1.45 var(--f-mono);color:var(--text-secondary)}
+.pt-src li::before{content:"";position:absolute;left:0;top:.5em;width:6px;height:6px;border-radius:50%;background:var(--leaf)}
+.pt-src li.i::before{background:var(--accent)}
+.pt-src b{color:var(--text-primary);font-weight:500}
+.pt-now{position:absolute;left:16px;bottom:14px;padding:4px 7px;border-radius:999px;background:var(--leaf);color:var(--canvas);font:500 9.5px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase}
+.pr-empty{max-width:1280px;margin:0 auto;padding:18px 20px;border:1px dashed var(--line-strong);border-radius:16px;color:var(--text-secondary)}
+.pr-more{text-align:center;margin-top:26px}
+.pr-more-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;border:1px solid var(--line-strong);background:rgba(23,32,48,.7);color:var(--text-primary);font:500 15px/1.2 var(--f-body);cursor:pointer;transition:border-color .35s var(--ease-out)}
+.pr-more-btn:hover{border-color:var(--accent)}
+.pr-more-btn[hidden]{display:none}
+.pr-foot{margin-top:26px;display:block;max-width:1280px}
 
 /* 04 вопросы */
 /* фон: полоса чуть светлее, зелёный свет за фото, узор «ромб и спираль», как вышивка */
@@ -526,6 +567,7 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
   .v-side{position:static}
   .ph-wrap{max-width:520px;margin:48px 0 0 58px}
   .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .site-foot{grid-template-columns:1fr}
 }
 @media (max-width:860px){
@@ -561,6 +603,17 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
   .c-add{width:auto;height:36px;padding:0 14px 0 10px;border-radius:999px;grid-auto-flow:column;gap:6px;font:500 13px/1 var(--f-body)}
   .c-add::after{content:"В список"}
   .c-add[aria-pressed="true"]::after{content:"В списке"}
+  /* весь прилавок: плитки в один столбец, переключатели прокручиваются вбок, «+» в плитке круглый */
+  .pr-tools{margin-top:40px}
+  .pr-seg{width:100%;overflow-x:auto;border-radius:16px}
+  .pr-seg button{flex:1 1 0;padding:11px 4px;font-size:13px}
+  .pr-seg button b{display:none}
+  .pr-grid{grid-template-columns:minmax(0,1fr);gap:10px}
+  .pt{grid-template-columns:76px minmax(0,1fr);gap:12px;padding:14px 14px 16px 10px}
+  .pt-art{height:76px}
+  .pt-art img{width:74px;height:74px}
+  .pt .c-add{width:36px;padding:0;border-radius:50%}
+  .pt .c-add::after,.pt .c-add[aria-pressed="true"]::after{content:none}
   /* список покупок на телефоне выезжает снизу во всю ширину */
   .list-dlg{width:100%;max-height:88dvh;margin:auto 0 0;border-radius:24px 24px 0 0;border-width:1px 0 0;padding-bottom:env(safe-area-inset-bottom)}
   .ld-head{padding:20px 16px 12px}
@@ -632,6 +685,7 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
       <li><a href="#svoi">Для своих</a></li>
       <li><a href="#yashchik">Честный ящик</a></li>
       <li><a href="#sezon">Сезон</a></li>
+      <li class="js-only"><a href="#prilavok">Прилавок</a></li>
       <li><a href="#voprosy">Вопросы</a></li>
     </ul>
   </nav>
@@ -884,13 +938,35 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
       </div>
     </section>
 
+    <!-- весь прилавок: каталог собирает JS из таблицы CAT; без JS блока нет -->
+    <section class="sec prilavok rvc" id="prilavok" aria-labelledby="prTitle">
+      <span class="leaf" aria-hidden="true"><svg><use href="#leafS"/></svg></span>
+      <div class="s-head">
+        <div>
+          <p class="kicker rv" style="--d:0"><span class="num">04</span> Весь прилавок</p>
+          <h2 class="h2 rv" style="--d:1" id="prTitle">Что бывает на прилавке</h2>
+        </div>
+        <p class="lead rv" style="--d:2">Что растёт в России и что привозят из других стран, по месяцам. Ищите по названию или по стране, а что лежит сегодня, спросите у Армена.</p>
+      </div>
+      <div class="pr-tools rv" style="--d:3">
+        <div class="pr-seg" id="prOrigin" role="group" aria-label="Откуда"></div>
+        <div class="pr-seg" id="prKind" role="group" aria-label="Что"></div>
+        <label class="pr-search"><span class="sr">Найти плод или страну</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><input id="prFind" type="search" placeholder="Найти: манго, Турция" autocomplete="off" enterkeyhint="search"></label>
+      </div>
+      <p class="pr-count mono" id="prCount" aria-live="polite"></p>
+      <ul class="pr-grid" id="prGrid"></ul>
+      <p class="pr-empty" id="prEmpty" hidden>Ничего не нашлось. Спросите у Армена: у нас всегда всё есть.</p>
+      <div class="pr-more"><button type="button" class="hold pr-more-btn" id="prMore" hidden></button></div>
+      <p class="s-foot pr-foot">Страны: главные поставщики в Россию по данным Россельхознадзора и отраслевых обзоров за 2025–2026 годы. «Россия» значит, что плод свой, с полей или из теплиц, сезон указан для юга.</p>
+    </section>
+
     <section class="sec voprosy rvc" id="voprosy">
       <!-- фон: спокойная полоса и узор из ромбов и спиралей; под курсором узор проступает ярче -->
       <div class="v-bg" aria-hidden="true"><i class="v-orn"></i><i class="v-orn v-lit"></i></div>
       <span class="leaf" aria-hidden="true"><svg><use href="#leafS"/></svg></span>
       <div class="v-grid">
         <div class="v-side">
-          <p class="kicker rv" style="--d:0"><span class="num">04</span> Вопросы</p>
+          <p class="kicker rv" style="--d:0"><span class="num">05</span> Вопросы</p>
           <h2 class="h2 rv" style="--d:1">Что обычно спрашивают</h2>
           <figure class="photo rv" style="--d:2">
             <img src="assets/abrikos.jpg" width="1200" height="1600" loading="lazy" decoding="async" alt="Спелый абрикос, разломанный пополам руками: сочная мякоть и косточка">
@@ -917,7 +993,7 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
       <img class="p-bg" src="assets/hero-ending.jpg" width="1920" height="1080" loading="lazy" decoding="async" alt="">
       <div class="p-shade" aria-hidden="true"></div>
       <div class="p-card">
-        <p class="kicker rv" style="--d:0"><span class="num">05</span> Приходите</p>
+        <p class="kicker rv" style="--d:0"><span class="num">06</span> Приходите</p>
         <h2 class="h2 rv" style="--d:1">Калашникова, 43. Армен на месте с восьми утра.</h2>
         <svg class="route rv" style="--d:2" viewBox="0 0 420 150" aria-hidden="true">
           <path class="st" d="M0 40H420M0 112H420M70 0V150M210 0V150M330 0V150"/>
@@ -1504,6 +1580,201 @@ function centerMonth() {
 centerMonth();
 addEventListener('resize', centerMonth);
 
+/* ---------- весь прилавок: что растёт в России и что привозят, с поиском ---------- */
+/* ключ картинки, название, латинское имя, цвет подсветки, вид (f фрукт, b ягода, v овощ, g зелень),
+   Россия: [с какого по какой месяц], третий элемент 1 = ещё и теплицы круглый год, или null;
+   откуда привозят в 2025–2026: главные страны или ''; когда привозят: [месяцы] или null = круглый год */
+const CAT = [
+  ['apple', 'Яблоки', 'Malus domestica', '#e8b24c', 'f', [8, 4], 'Китай, Азербайджан, Сербия, ЮАР', null],
+  ['pear', 'Груши', 'Pyrus communis', '#e6d67a', 'f', [8, 11], 'Турция, Китай, Аргентина, ЮАР', null],
+  ['quince', 'Айва', 'Cydonia oblonga', '#f5e27a', 'f', [9, 12], 'Азербайджан, Узбекистан, Турция', [9, 2]],
+  ['apricot', 'Абрикосы', 'Prunus armeniaca', '#ffb45a', 'f', [6, 7], 'Узбекистан, Турция, Армения', [5, 8]],
+  ['peach', 'Персики', 'Prunus persica', '#ffae7a', 'f', [7, 9], 'Узбекистан, Турция, Азербайджан', [6, 10]],
+  ['nectarine', 'Нектарины', 'Prunus persica var. nucipersica', '#f0704a', 'f', [7, 9], 'Турция, Узбекистан, Азербайджан', [6, 10]],
+  ['plum', 'Сливы', 'Prunus domestica', '#6a5ab8', 'f', [7, 9], 'Сербия, Узбекистан, Чили, ЮАР', null],
+  ['alycha', 'Алыча', 'Prunus cerasifera', '#f0c840', 'f', [6, 8], 'Азербайджан, Узбекистан', [5, 8]],
+  ['cherry', 'Черешня', 'Prunus avium', '#d8364a', 'f', [6, 7], 'Турция, Узбекистан, Азербайджан, Чили', [5, 8]],
+  ['sourcherry', 'Вишня', 'Prunus cerasus', '#c82a40', 'f', [6, 7], '', null],
+  ['kizil', 'Кизил', 'Cornus mas', '#d02030', 'f', [8, 9], '', null],
+  ['grape', 'Виноград', 'Vitis vinifera', '#a06aa8', 'f', [8, 10], 'Узбекистан, Турция, Индия, Перу', null],
+  ['watermelon', 'Арбузы', 'Citrullus lanatus', '#f0606a', 'f', [7, 9], 'Узбекистан, Казахстан, Иран', [4, 10]],
+  ['melon', 'Дыни', 'Cucumis melo', '#f5e08a', 'f', [7, 9], 'Узбекистан, Казахстан, Бразилия', null],
+  ['fig', 'Инжир', 'Ficus carica', '#9a5a6e', 'f', [8, 9], 'Турция, Узбекистан, Азербайджан', [7, 10]],
+  ['persimmon', 'Хурма', 'Diospyros kaki', '#f8a040', 'f', [10, 12], 'Азербайджан, Узбекистан, Израиль', [10, 3]],
+  ['pomegranate', 'Гранат', 'Punica granatum', '#d6403a', 'f', [10, 11], 'Азербайджан, Турция, Узбекистан, Египет', [9, 4]],
+  ['feijoa', 'Фейхоа', 'Acca sellowiana', '#8fb060', 'f', [10, 12], 'Абхазия, Азербайджан', [10, 12]],
+  ['mushmula', 'Мушмула', 'Eriobotrya japonica', '#f6b440', 'f', [5, 6], 'Абхазия, Азербайджан, Турция', [4, 6]],
+  ['kiwi', 'Киви', 'Actinidia deliciosa', '#a7c255', 'f', null, 'Иран, Турция, Чили', null],
+  ['mandarin', 'Мандарины', 'Citrus reticulata', '#ffb347', 'f', null, 'Турция, Египет, Марокко, Китай, Абхазия', [10, 4]],
+  ['orange', 'Апельсины', 'Citrus sinensis', '#ffa53d', 'f', null, 'Египет, Турция, ЮАР, Марокко', null],
+  ['lemon', 'Лимоны', 'Citrus limon', '#f8e04a', 'f', null, 'Турция, ЮАР, Египет, Аргентина', null],
+  ['lime', 'Лайм', 'Citrus aurantiifolia', '#8ad04a', 'f', null, 'Бразилия, Мексика, Колумбия', null],
+  ['grapefruit', 'Грейпфрут', 'Citrus paradisi', '#f7b98a', 'f', null, 'Турция, ЮАР, Китай, Израиль', null],
+  ['pomelo', 'Помело', 'Citrus maxima', '#eee49a', 'f', null, 'Китай, Вьетнам', [9, 4]],
+  ['kumquat', 'Кумкват', 'Citrus japonica', '#f6861e', 'f', null, 'Китай', [11, 4]],
+  ['banana', 'Бананы', 'Musa', '#f5d85a', 'f', null, 'Эквадор', null],
+  ['avocado', 'Авокадо', 'Persea americana', '#8ab058', 'f', null, 'Израиль, Перу, Кения, Колумбия', null],
+  ['mango', 'Манго', 'Mangifera indica', '#f4a434', 'f', null, 'Перу, Бразилия, Вьетнам, Египет', null],
+  ['pineapple', 'Ананасы', 'Ananas comosus', '#e8b040', 'f', null, 'Коста-Рика, Эквадор', null],
+  ['papaya', 'Папайя', 'Carica papaya', '#f4a830', 'f', null, 'Бразилия, Вьетнам', null],
+  ['maracuja', 'Маракуйя', 'Passiflora edulis', '#9a4a9a', 'f', null, 'Вьетнам, Колумбия', null],
+  ['pitahaya', 'Питахайя', 'Selenicereus undatus', '#e84a90', 'f', null, 'Вьетнам', null],
+  ['lychee', 'Личи', 'Litchi chinensis', '#e0404a', 'f', null, 'Вьетнам, Китай, Таиланд', [5, 8]],
+  ['coconut', 'Кокос', 'Cocos nucifera', '#b08a5a', 'f', null, 'Вьетнам, Таиланд, Шри-Ланка', null],
+  ['dates', 'Финики', 'Phoenix dactylifera', '#b0703a', 'f', null, 'Иран, Тунис, ОАЭ', null],
+  ['strawberry', 'Клубника', 'Fragaria × ananassa', '#f25a4a', 'b', [5, 7], 'Египет, Турция', [12, 5]],
+  ['raspberry', 'Малина', 'Rubus idaeus', '#ec5a78', 'b', [6, 9], 'Сербия, Марокко', [11, 5]],
+  ['blackberry', 'Ежевика', 'Rubus fruticosus', '#5a3a7a', 'b', [7, 9], 'Сербия, Марокко', [11, 5]],
+  ['blueberry', 'Голубика', 'Vaccinium corymbosum', '#4a5ab0', 'b', [7, 9], 'Перу, Марокко, Сербия, Китай', null],
+  ['currant', 'Смородина', 'Ribes rubrum', '#e0303e', 'b', [7, 8], '', null],
+  ['gooseberry', 'Крыжовник', 'Ribes uva-crispa', '#a8d05a', 'b', [7, 8], '', null],
+  ['seabuckthorn', 'Облепиха', 'Hippophae rhamnoides', '#f89a1a', 'b', [8, 10], '', null],
+  ['lingonberry', 'Брусника', 'Vaccinium vitis-idaea', '#e02a3a', 'b', [8, 10], '', null],
+  ['cranberry', 'Клюква', 'Vaccinium oxycoccos', '#e0304a', 'b', [9, 11], '', null],
+  ['tomato', 'Помидоры', 'Solanum lycopersicum', '#f06a3a', 'v', [7, 9, 1], 'Турция, Азербайджан, Узбекистан, Китай, Марокко', null],
+  ['cucumber', 'Огурцы', 'Cucumis sativus', '#78a84a', 'v', [6, 9, 1], 'Иран, Турция, Азербайджан, Китай', null],
+  ['pepper', 'Сладкий перец', 'Capsicum annuum', '#e84a2a', 'v', [7, 10, 1], 'Турция, Китай, Израиль, Узбекистан', null],
+  ['chili', 'Острый перец', 'Capsicum annuum', '#e0301e', 'v', [7, 10], 'Турция, Египет', null],
+  ['eggplant', 'Баклажаны', 'Solanum melongena', '#9a6ab8', 'v', [7, 10], 'Турция, Иран, Азербайджан', null],
+  ['zucchini', 'Кабачки', 'Cucurbita pepo', '#b6d27a', 'v', [6, 10], 'Турция, Иран, Китай', null],
+  ['patisson', 'Патиссоны', 'Cucurbita pepo', '#eee8b8', 'v', [7, 9], '', null],
+  ['pumpkin', 'Тыква', 'Cucurbita maxima', '#f59a3a', 'v', [9, 3], '', null],
+  ['newpotato', 'Картофель', 'Solanum tuberosum', '#efd9a0', 'v', [1, 12], 'Египет, Азербайджан, Пакистан', [2, 6]],
+  ['sweetpotato', 'Батат', 'Ipomoea batatas', '#c0506a', 'v', null, 'Египет, Израиль, Китай', null],
+  ['carrot', 'Морковь', 'Daucus carota', '#ff9a3c', 'v', [1, 12], 'Израиль, Узбекистан, Египет, Китай', [2, 7]],
+  ['beet', 'Свёкла', 'Beta vulgaris', '#c83a6a', 'v', [1, 12], 'Беларусь, Египет', [3, 7]],
+  ['onion', 'Лук репчатый', 'Allium cepa', '#d8a050', 'v', [1, 12], 'Египет, Узбекистан, Китай', [2, 7]],
+  ['garlic', 'Чеснок', 'Allium sativum', '#e8e0ec', 'v', [1, 12], 'Китай, Узбекистан, Египет', null],
+  ['leek', 'Лук-порей', 'Allium porrum', '#9ac878', 'v', [8, 11], 'Израиль, Турция', null],
+  ['radish', 'Редис', 'Raphanus sativus', '#f06b7e', 'v', [4, 10, 1], 'Израиль, Китай', [11, 4]],
+  ['daikon', 'Дайкон', 'Raphanus sativus var. longipinnatus', '#e8f0e0', 'v', [8, 11], 'Китай, Узбекистан', null],
+  ['cabbage', 'Капуста', 'Brassica oleracea', '#b8d0a0', 'v', [1, 12], 'Беларусь, Китай, Узбекистан', [3, 6]],
+  ['redcabbage', 'Краснокочанная капуста', 'Brassica oleracea', '#9a4ab0', 'v', [8, 4], '', null],
+  ['pekincabbage', 'Пекинская капуста', 'Brassica rapa subsp. pekinensis', '#c8e48a', 'v', [6, 11], 'Китай, Узбекистан', null],
+  ['cauliflower', 'Цветная капуста', 'Brassica oleracea var. botrytis', '#f0e8d0', 'v', [7, 10], 'Китай, Узбекистан, Турция', null],
+  ['broccoli', 'Брокколи', 'Brassica oleracea var. italica', '#5a9a3a', 'v', [7, 10], 'Китай, Турция', null],
+  ['corn', 'Кукуруза', 'Zea mays', '#f8d23a', 'v', [8, 9], '', null],
+  ['greenbeans', 'Стручковая фасоль', 'Phaseolus vulgaris', '#7ab84a', 'v', [7, 9], 'Египет, Марокко', null],
+  ['peas', 'Зелёный горошек', 'Pisum sativum', '#8ac84a', 'v', [6, 7], '', null],
+  ['asparagus', 'Спаржа', 'Asparagus officinalis', '#a8cc6a', 'v', [5, 6], 'Перу, Китай', null],
+  ['celery', 'Сельдерей', 'Apium graveolens', '#b8dc80', 'v', [7, 10], 'Израиль, Китай', null],
+  ['ginger', 'Имбирь', 'Zingiber officinale', '#d8b070', 'v', null, 'Китай', null],
+  ['rhubarb', 'Ревень', 'Rheum rhabarbarum', '#e0506a', 'v', [5, 6], '', null],
+  ['greens', 'Петрушка и укроп', 'Petroselinum, Anethum', '#8cc05a', 'g', [5, 9, 1], 'Израиль, Азербайджан, Иран', null],
+  ['cilantro', 'Кинза', 'Coriandrum sativum', '#8ac858', 'g', [5, 9, 1], 'Азербайджан, Иран, Израиль', null],
+  ['basil', 'Базилик', 'Ocimum basilicum', '#8a5a9a', 'g', [6, 9, 1], 'Азербайджан, Израиль', null],
+  ['springonion', 'Зелёный лук', 'Allium cepa', '#b8d890', 'g', [4, 9, 1], '', null],
+  ['lettuce', 'Салат', 'Lactuca sativa', '#a8d86a', 'g', [5, 9, 1], 'Израиль, Турция', null],
+  ['spinach', 'Шпинат', 'Spinacia oleracea', '#4a8a3a', 'g', [4, 10], 'Израиль', null],
+  ['sorrel', 'Щавель', 'Rumex acetosa', '#6aaa3a', 'g', [4, 7], '', null],
+  ['mint', 'Мята', 'Mentha', '#7ac85a', 'g', [5, 9], 'Израиль, Азербайджан', null],
+  ['tarragon', 'Тархун', 'Artemisia dracunculus', '#6a9a4e', 'g', [5, 9], 'Азербайджан, Грузия', null]
+];
+const PR_ORIGIN = [['all', 'Всё'], ['home', 'Растёт у нас'], ['imp', 'Привозят']];
+const PR_KIND = [['all', 'Всё'], ['f', 'Фрукты'], ['b', 'Ягоды'], ['v', 'Овощи'], ['g', 'Зелень']];
+const PR_PAGE = 12;
+const MON_NOM = MONTHS_FULL.map(s => s.toLowerCase());
+const inRange = (r, m) => (r[0] <= r[1] ? m >= r[0] && m <= r[1] : m >= r[0] || m <= r[1]);   // диапазон может идти через новый год
+const allYear = r => !r || (r[0] === 1 && r[1] === 12);
+const spanText = r => (allYear(r) ? 'круглый год' : MON_NOM[r[0] - 1] + '–' + MON_NOM[r[1] - 1]);
+const low = s => s.toLowerCase().replace(/ё/g, 'е');
+const plural = (n, one, few, many) => {
+  const m10 = n % 10, m100 = n % 100;
+  return m10 === 1 && m100 !== 11 ? one : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? few : many;
+};
+/* что сейчас в сезоне в России (круглый год не считается), то идёт первым */
+const PR_ITEMS = CAT.map(([key, name, lat, glowC, kind, home, from, when], i) => ({
+  key, name, lat, glowC, kind, home, from, when, i,
+  now: !!home && !allYear(home) && inRange(home, NOW + 1),
+  find: low(name + ' ' + lat + ' ' + from)
+})).sort((x, y) => (y.now - x.now) || (x.i - y.i));
+const prGrid = $('#prGrid'), prCount = $('#prCount'), prEmpty = $('#prEmpty'), prMore = $('#prMore'), prFind = $('#prFind');
+const pr = { origin: 'all', kind: 'all', q: '', shown: PR_PAGE };
+function prPass(it, origin, kind) {
+  if (origin === 'home' && !it.home) return false;
+  if (origin === 'imp' && !it.from) return false;
+  if (kind !== 'all' && it.kind !== kind) return false;
+  return !pr.q || it.find.includes(pr.q);
+}
+function prTile(it, i, anim) {
+  const li = mk('li', 'pt' + (anim ? ' pop' : ''));
+  if (anim) li.style.setProperty('--i', i % PR_PAGE);
+  const art = mk('div', 'pt-art');
+  art.style.setProperty('--c', it.glowC + '59');
+  const img = new Image(88, 88);
+  img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
+  img.src = 'assets/fruits/' + it.key + '.svg';
+  art.append(img);
+  const txt = mk('div'), head = mk('div', 'pt-name'), add = mk('button', 'c-add');
+  add.type = 'button'; add.dataset.name = it.name; add.innerHTML = ADD_ICON;
+  add.setAttribute('aria-label', 'В список покупок: ' + it.name);
+  add.setAttribute('aria-pressed', String(inList(it.name)));
+  head.append(mk('h3', '', it.name), add);
+  const lat = mk('p', 'pt-lat', it.lat); lat.lang = 'la';
+  const src = mk('ul', 'pt-src');
+  if (it.home) {
+    const h = mk('li', 'h');
+    h.append(mk('b', '', 'Россия'), ' · ' + spanText(it.home) + (it.home[2] && !allYear(it.home) ? ', в теплицах круглый год' : ''));
+    src.append(h);
+  }
+  if (it.from) {
+    const f2 = mk('li', 'i');
+    f2.append(mk('b', '', it.from), ' · ' + spanText(it.when));
+    src.append(f2);
+  }
+  txt.append(head, lat, src);
+  li.append(art, txt);
+  if (it.now) li.append(mk('span', 'pt-now', 'сезон'));
+  return li;
+}
+function prSegs() {
+  // на кнопках число позиций с учётом остальных фильтров и поиска
+  $$('button', $('#prOrigin')).forEach(b => {
+    b.setAttribute('aria-pressed', String(b.dataset.v === pr.origin));
+    b.lastChild.textContent = PR_ITEMS.filter(it => prPass(it, b.dataset.v, pr.kind)).length;
+  });
+  $$('button', $('#prKind')).forEach(b => {
+    b.setAttribute('aria-pressed', String(b.dataset.v === pr.kind));
+    b.lastChild.textContent = PR_ITEMS.filter(it => prPass(it, pr.origin, b.dataset.v)).length;
+  });
+}
+function renderPr(anim) {
+  const items = PR_ITEMS.filter(it => prPass(it, pr.origin, pr.kind));
+  const n = items.length, nowN = items.filter(it => it.now).length;
+  prCount.textContent = n ? n + ' ' + plural(n, 'позиция', 'позиции', 'позиций') + (nowN ? ' · сначала то, что сейчас в сезоне' : '') : '';
+  prGrid.textContent = '';
+  items.slice(0, pr.shown).forEach((it, i) => prGrid.append(prTile(it, i, anim && !RM.matches)));
+  prEmpty.hidden = n > 0;
+  const rest = n - pr.shown;
+  prMore.hidden = rest <= 0;
+  if (rest > 0) prMore.textContent = 'Показать ещё ' + Math.min(PR_PAGE, rest) + ' из ' + rest;
+  prSegs();
+}
+function prSegButtons(box, opts, key) {
+  opts.forEach(([v, label]) => {
+    const b = mk('button');
+    b.type = 'button'; b.dataset.v = v;
+    b.append(label, mk('b'));
+    b.addEventListener('click', () => { if (pr[key] === v) return; pr[key] = v; pr.shown = PR_PAGE; renderPr(true); });
+    box.append(b);
+  });
+}
+prSegButtons($('#prOrigin'), PR_ORIGIN, 'origin');
+prSegButtons($('#prKind'), PR_KIND, 'kind');
+let prTimer = null;
+prFind.addEventListener('input', () => {
+  clearTimeout(prTimer);
+  prTimer = setTimeout(() => { pr.q = low(prFind.value.trim()); pr.shown = PR_PAGE; renderPr(false); }, 140);
+});
+prMore.addEventListener('click', () => {
+  const from = pr.shown;
+  pr.shown += PR_PAGE;
+  renderPr(false);
+  const first = prGrid.children[from];   // фокус на первую новую плитку, чтобы с клавиатуры не начинать сначала
+  if (first) $('.c-add', first).focus({ preventScroll: true });
+});
+renderPr(false);
+
 /* ---------- список покупок: окно, кнопки, «поделиться» ---------- */
 const STAPLES = ['Картофель', 'Лук', 'Морковь', 'Помидоры', 'Огурцы', 'Зелень', 'Лимоны', 'Бананы'];
 const SITE_URL = 'https://petrosadixanyan-design.github.io/u-armena/';
@@ -1538,7 +1809,7 @@ function renderList(focus) {
   d.body.classList.toggle('has-list', list.length > 0);
   fabCount.textContent = left;
   fab.setAttribute('aria-label', 'Список покупок, осталось купить: ' + left);
-  $$('.c-add', cardsUl).forEach(b => b.setAttribute('aria-pressed', String(inList(b.dataset.name))));
+  $$('.c-add').forEach(b => b.setAttribute('aria-pressed', String(inList(b.dataset.name))));
   $$('button', chipsBox).forEach(b => b.setAttribute('aria-pressed', String(inList(b.textContent))));
   itemsUl.textContent = '';
   list.forEach((x, i) => {
@@ -1582,7 +1853,7 @@ STAPLES.forEach(s => {
   b.addEventListener('click', () => toggleItem(s));
   chipsBox.append(b);
 });
-cardsUl.addEventListener('click', e => { const b = e.target.closest('.c-add'); if (b) toggleItem(b.dataset.name); });
+[cardsUl, prGrid].forEach(box => box.addEventListener('click', e => { const b = e.target.closest('.c-add'); if (b) toggleItem(b.dataset.name); }));
 fab.addEventListener('click', openList);
 $$('[data-list-open]').forEach(b => b.addEventListener('click', openList));
 $('#listClose').addEventListener('click', () => dlg.close());
@@ -1674,16 +1945,17 @@ d.addEventListener('visibilitychange', showOpen);
 
 /* ---------- мягкое свечение за курсором, края карточек «Сезона» и узор «Вопросов» ---------- */
 const FINE = matchMedia('(hover: hover) and (pointer: fine)');
-const glow = $('#glow'), voprosy = $('#voprosy'), sezonSec = $('#sezon');
+const glow = $('#glow'), voprosy = $('#voprosy'), sezonSec = $('#sezon'), prSec = $('#prilavok');
 let gx = 0, gy = 0, gtx = 0, gty = 0, glowOn = false, glowRaf = null, glowLast = 0;
 const litOn = new Set();   // блоки с подсветкой, которые сейчас на экране
 const litIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) litOn.add(e.target); else litOn.delete(e.target); }));
-[voprosy, sezonSec].forEach(el => litIO.observe(el));
+[voprosy, sezonSec, prSec].forEach(el => litIO.observe(el));
 function lightUp() {
   // сначала читаем размеры, потом пишем координаты: так страница пересчитывается один раз
   const jobs = [];
   if (litOn.has(voprosy)) jobs.push([voprosy, voprosy.getBoundingClientRect()]);
   if (litOn.has(sezonSec)) $$('.card', cardsUl).forEach(c => jobs.push([c, c.getBoundingClientRect()]));
+  if (litOn.has(prSec)) $$('.pt', prGrid).forEach(c => jobs.push([c, c.getBoundingClientRect()]));
   jobs.forEach(([el, r]) => {
     el.style.setProperty('--lx', Math.round(gx - r.left) + 'px');
     el.style.setProperty('--ly', Math.round(gy - r.top) + 'px');
