@@ -364,7 +364,11 @@ section{scroll-margin-top:72px}
 .card:hover .c-art::before{opacity:1}
 .c-txt{grid-area:txt;border-top:1px solid var(--line);padding-top:18px}
 .card h3{font:600 19px/1.25 var(--f-display);letter-spacing:-.005em}
-.card p{margin-top:10px;font:400 13px/1.6 var(--f-mono);color:var(--text-secondary)}
+.c-name{display:flex;align-items:center;justify-content:space-between;gap:12px}
+/* три совета: выбрать, хранить, подать */
+.c-tips{display:grid;gap:12px;margin-top:14px}
+.c-tips dt{font:500 10px/1.2 var(--f-mono);letter-spacing:.18em;text-transform:uppercase;color:#8e96a8}
+.c-tips dd{margin-top:4px;font:400 13px/1.55 var(--f-mono);color:var(--text-secondary)}
 .s-foot{max-width:1280px;margin:22px auto 0;font-size:14px;color:var(--text-secondary)}
 
 /* 04 вопросы */
@@ -449,13 +453,16 @@ section{scroll-margin-top:72px}
   .badge-ring{font-size:9.4px}
   .badge .mark{width:32px;height:32px;margin:-16px 0 0 -16px}
   .sprig{width:180px;right:-26px;top:-62px}
-  .card{grid-template-columns:96px minmax(0,1fr);grid-template-areas:"art top" "art txt";grid-template-rows:auto 1fr;column-gap:16px;padding:18px 18px 20px}
+  .card{grid-template-columns:96px minmax(0,1fr);grid-template-areas:"art top" "art name" "tips tips";grid-template-rows:auto 1fr auto;column-gap:16px;padding:18px 18px 20px}
   .c-top{justify-content:flex-start;gap:14px}
   .c-lat{text-align:left}
   .c-art{height:auto;margin:0;align-self:start}
   .c-art::before{width:120px;height:100px}
   .c-art img{width:96px;height:96px}
-  .c-txt{border-top:0;padding-top:8px}
+  /* на телефоне название рядом с плодом, советы во всю ширину карточки под ними */
+  .c-txt{display:contents}
+  .c-name{grid-area:name;align-self:start;padding-top:8px}
+  .c-tips{grid-area:tips;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
   .qa-q button{gap:14px;padding:22px 0}
   .qa-n{width:auto}
   .qa-a p{margin:0 0 24px}
@@ -747,12 +754,12 @@ section{scroll-margin-top:72px}
       </div>
       <!-- без JS виден сентябрь; с JS список собирается по текущему месяцу -->
       <ul class="cards" id="cards">
-        <li class="rv" style="--d:3"><article class="card" style="--c:#a06aa859"><div class="c-top"><span class="c-n">01</span><span class="c-lat" lang="la">Vitis vinifera</span></div><div class="c-art"><img src="assets/fruits/grape.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><h3>Виноград</h3><p>Гроздь крепкая, веточка зелёная, ягоды не осыпаются.</p></div></article></li>
-        <li class="rv" style="--d:4"><article class="card" style="--c:#e6d67a59"><div class="c-top"><span class="c-n">02</span><span class="c-lat" lang="la">Pyrus communis</span></div><div class="c-art"><img src="assets/fruits/pear.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><h3>Груши</h3><p>У хвостика чуть мягкие при лёгком нажатии.</p></div></article></li>
-        <li class="rv" style="--d:5"><article class="card" style="--c:#e8b24c59"><div class="c-top"><span class="c-n">03</span><span class="c-lat" lang="la">Malus domestica</span></div><div class="c-art"><img src="assets/fruits/apple.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><h3>Яблоки</h3><p>Твёрдые, тяжёлые, без вмятин и мягких мест.</p></div></article></li>
-        <li class="rv" style="--d:6"><article class="card" style="--c:#9a5a6e59"><div class="c-top"><span class="c-n">04</span><span class="c-lat" lang="la">Ficus carica</span></div><div class="c-art"><img src="assets/fruits/fig.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><h3>Инжир</h3><p>Мягкий, с каплей сока у глазка, пахнет сладко.</p></div></article></li>
-        <li class="rv" style="--d:7"><article class="card" style="--c:#f5e27a59"><div class="c-top"><span class="c-n">05</span><span class="c-lat" lang="la">Cydonia oblonga</span></div><div class="c-art"><img src="assets/fruits/quince.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><h3>Айва</h3><p>Жёлтая и душистая, пушок легко стирается.</p></div></article></li>
-        <li class="rv" style="--d:8"><article class="card" style="--c:#f59a3a59"><div class="c-top"><span class="c-n">06</span><span class="c-lat" lang="la">Cucurbita maxima</span></div><div class="c-art"><img src="assets/fruits/pumpkin.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><h3>Тыква</h3><p>Глухой звук при стуке и сухой хвостик.</p></div></article></li>
+        <li class="rv" style="--d:3"><article class="card" style="--c:#a06aa859"><div class="c-top"><span class="c-n">01</span><span class="c-lat" lang="la">Vitis vinifera</span></div><div class="c-art"><img src="assets/fruits/grape.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><div class="c-name"><h3>Виноград</h3></div><dl class="c-tips"><div><dt>Выбрать</dt><dd>Гроздь крепкая, веточка зелёная, ягоды не осыпаются.</dd></div><div><dt>Хранить</dt><dd>Немытый в холодильнике до недели.</dd></div><div><dt>Подать</dt><dd>С сыром и орехами к столу.</dd></div></dl></div></article></li>
+        <li class="rv" style="--d:4"><article class="card" style="--c:#e6d67a59"><div class="c-top"><span class="c-n">02</span><span class="c-lat" lang="la">Pyrus communis</span></div><div class="c-art"><img src="assets/fruits/pear.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><div class="c-name"><h3>Груши</h3></div><dl class="c-tips"><div><dt>Выбрать</dt><dd>У хвостика чуть мягкие при лёгком нажатии.</dd></div><div><dt>Хранить</dt><dd>Твёрдые дозреют дома, спелые в холодильник.</dd></div><div><dt>Подать</dt><dd>С мягким сыром или в компот.</dd></div></dl></div></article></li>
+        <li class="rv" style="--d:5"><article class="card" style="--c:#e8b24c59"><div class="c-top"><span class="c-n">03</span><span class="c-lat" lang="la">Malus domestica</span></div><div class="c-art"><img src="assets/fruits/apple.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><div class="c-name"><h3>Яблоки</h3></div><dl class="c-tips"><div><dt>Выбрать</dt><dd>Твёрдые, тяжёлые, без вмятин и мягких мест.</dd></div><div><dt>Хранить</dt><dd>В холодильнике месяц, отдельно от других плодов.</dd></div><div><dt>Подать</dt><dd>В шарлотку или запечь с мёдом и корицей.</dd></div></dl></div></article></li>
+        <li class="rv" style="--d:6"><article class="card" style="--c:#9a5a6e59"><div class="c-top"><span class="c-n">04</span><span class="c-lat" lang="la">Ficus carica</span></div><div class="c-art"><img src="assets/fruits/fig.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><div class="c-name"><h3>Инжир</h3></div><dl class="c-tips"><div><dt>Выбрать</dt><dd>Мягкий, с каплей сока у глазка, пахнет сладко.</dd></div><div><dt>Хранить</dt><dd>В холодильнике, съесть за день-два.</dd></div><div><dt>Подать</dt><dd>С сыром и мёдом или в варенье.</dd></div></dl></div></article></li>
+        <li class="rv" style="--d:7"><article class="card" style="--c:#f5e27a59"><div class="c-top"><span class="c-n">05</span><span class="c-lat" lang="la">Cydonia oblonga</span></div><div class="c-art"><img src="assets/fruits/quince.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><div class="c-name"><h3>Айва</h3></div><dl class="c-tips"><div><dt>Выбрать</dt><dd>Жёлтая и душистая, пушок легко стирается.</dd></div><div><dt>Хранить</dt><dd>В прохладе до двух месяцев.</dd></div><div><dt>Подать</dt><dd>Варенье дольками или запечь к мясу.</dd></div></dl></div></article></li>
+        <li class="rv" style="--d:8"><article class="card" style="--c:#f59a3a59"><div class="c-top"><span class="c-n">06</span><span class="c-lat" lang="la">Cucurbita maxima</span></div><div class="c-art"><img src="assets/fruits/pumpkin.svg" width="120" height="120" alt="" loading="lazy" decoding="async"></div><div class="c-txt"><div class="c-name"><h3>Тыква</h3></div><dl class="c-tips"><div><dt>Выбрать</dt><dd>Глухой звук при стуке и сухой хвостик.</dd></div><div><dt>Хранить</dt><dd>Целая лежит в прохладе несколько месяцев.</dd></div><div><dt>Подать</dt><dd>Гапама: запечь с рисом и сухофруктами.</dd></div></dl></div></article></li>
       </ul>
       <p class="s-foot rv" style="--d:6">Список общий, по сезону для юга России.</p>
     </section>
@@ -1206,43 +1213,44 @@ holdBtn.addEventListener('contextmenu', e => e.preventDefault());
 const MONTHS = ['январе', 'феврале', 'марте', 'апреле', 'мае', 'июне', 'июле', 'августе', 'сентябре', 'октябре', 'ноябре', 'декабре'];
 const MONTHS_SHORT = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
 const MONTHS_FULL = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-/* ключ: картинка assets/fruits/<ключ>.svg; дальше название, цвет подсветки, латинское имя, совет */
+/* ключ: картинка assets/fruits/<ключ>.svg; дальше название, цвет подсветки, латинское имя
+   и три совета: как выбрать, как хранить, с чем подать */
 const P = {
-  mandarin: ['Мандарины', '#ffb347', 'Citrus reticulata', 'Тяжёлые для своего размера, кожура легко отходит и пахнет.'],
-  orange: ['Апельсины', '#ffa53d', 'Citrus sinensis', 'Берите тяжёлые, с тонкой гладкой кожурой.'],
-  grapefruit: ['Грейпфрут', '#f7b98a', 'Citrus paradisi', 'Тяжёлый и чуть приплюснутый, кожура упругая.'],
-  pomelo: ['Помело', '#eee49a', 'Citrus maxima', 'Тяжёлое, кожура плотная и пахнет цитрусом.'],
-  pomegranate: ['Гранат', '#d6403a', 'Punica granatum', 'Тяжёлый, кожура суховатая и плотно облегает зёрна.'],
-  persimmon: ['Хурма', '#f8a040', 'Diospyros kaki', 'Полупрозрачная, хвостик сухой и коричневый.'],
-  apple: ['Яблоки', '#e8b24c', 'Malus domestica', 'Твёрдые, тяжёлые, без вмятин и мягких мест.'],
-  kiwi: ['Киви', '#a7c255', 'Actinidia deliciosa', 'Чуть мягкое при лёгком нажатии, без морщин.'],
-  beet: ['Свёкла', '#c83a6a', 'Beta vulgaris', 'Небольшая, твёрдая и ровная, без трещин.'],
-  carrot: ['Морковь', '#ff9a3c', 'Daucus carota', 'Ровная, яркая и твёрдая, без зелёных плеч.'],
-  radish: ['Редис', '#f06b7e', 'Raphanus sativus', 'Упругий, ботва свежая, не вялая.'],
-  greens: ['Зелень', '#8cc05a', 'Petroselinum, Anethum', 'Листья упругие, без желтизны и слизи.'],
-  cucumber: ['Огурцы', '#78a84a', 'Cucumis sativus', 'Упругие, с пупырышками, без желтизны.'],
-  springonion: ['Молодой лук', '#b8d890', 'Allium cepa', 'Белый низ, упругие ярко-зелёные перья.'],
-  strawberry: ['Клубника', '#f25a4a', 'Fragaria × ananassa', 'Красная до самого хвостика и пахнет.'],
-  cherry: ['Черешня', '#d8364a', 'Prunus avium', 'Тёмная, блестящая, с зелёными хвостиками.'],
-  youngcabbage: ['Молодая капуста', '#c8e090', 'Brassica oleracea', 'Сочные светлые листья, кочан тяжёлый.'],
-  apricot: ['Абрикосы', '#ffb45a', 'Prunus armeniaca', 'Ровно-оранжевые, упругие и с ароматом.'],
-  newpotato: ['Молодой картофель', '#efd9a0', 'Solanum tuberosum', 'Кожица тонкая и стирается пальцем.'],
-  zucchini: ['Кабачки', '#b6d27a', 'Cucurbita pepo', 'Небольшие, с тонкой блестящей кожурой.'],
-  peach: ['Персики', '#ffae7a', 'Prunus persica', 'Пахнут и чуть мягкие у хвостика.'],
-  sourcherry: ['Вишня', '#c82a40', 'Prunus cerasus', 'Тёмная, блестящая, сок тёмно-красный.'],
-  raspberry: ['Малина', '#ec5a78', 'Rubus idaeus', 'Сухая, целая, без помятых ягод.'],
-  tomato: ['Помидоры', '#f06a3a', 'Solanum lycopersicum', 'Пахнут помидором у плодоножки и тяжёлые.'],
-  watermelon: ['Арбузы', '#f0606a', 'Citrullus lanatus', 'Жёлтое пятно на боку и звонкий звук.'],
-  melon: ['Дыни', '#f5e08a', 'Cucumis melo', 'Пахнут у хвостика, корка чуть пружинит.'],
-  grape: ['Виноград', '#a06aa8', 'Vitis vinifera', 'Гроздь крепкая, веточка зелёная, ягоды не осыпаются.'],
-  eggplant: ['Баклажаны', '#9a6ab8', 'Solanum melongena', 'Блестящие, упругие, с зелёной плодоножкой.'],
-  pear: ['Груши', '#e6d67a', 'Pyrus communis', 'У хвостика чуть мягкие при лёгком нажатии.'],
-  fig: ['Инжир', '#9a5a6e', 'Ficus carica', 'Мягкий, с каплей сока у глазка, пахнет сладко.'],
-  quince: ['Айва', '#f5e27a', 'Cydonia oblonga', 'Жёлтая и душистая, пушок легко стирается.'],
-  pumpkin: ['Тыква', '#f59a3a', 'Cucurbita maxima', 'Глухой звук при стуке и сухой хвостик.'],
-  feijoa: ['Фейхоа', '#8fb060', 'Acca sellowiana', 'Чуть мягкая и пахнет ананасом.'],
-  cabbage: ['Капуста', '#b8d0a0', 'Brassica oleracea', 'Плотный тяжёлый кочан, листья хрустят.'],
-  cranberry: ['Клюква', '#e0304a', 'Vaccinium oxycoccos', 'Твёрдая, блестящая, пружинит от стола.']
+  mandarin: ['Мандарины', '#ffb347', 'Citrus reticulata', 'Тяжёлые для своего размера, кожура легко отходит и пахнет.', 'В холодильнике до двух недель.', 'Дольками к чаю, цедру в выпечку.'],
+  orange: ['Апельсины', '#ffa53d', 'Citrus sinensis', 'Берите тяжёлые, с тонкой гладкой кожурой.', 'В холодильнике до трёх недель.', 'Сок на завтрак или дольки в салат.'],
+  grapefruit: ['Грейпфрут', '#f7b98a', 'Citrus paradisi', 'Тяжёлый и чуть приплюснутый, кожура упругая.', 'В овощном ящике холодильника до трёх недель.', 'Половинку на завтрак, есть ложкой.'],
+  pomelo: ['Помело', '#eee49a', 'Citrus maxima', 'Тяжёлое, кожура плотная и пахнет цитрусом.', 'Целое лежит в прохладе до месяца.', 'Дольки без плёнок в салат с креветками.'],
+  pomegranate: ['Гранат', '#d6403a', 'Punica granatum', 'Тяжёлый, кожура суховатая и плотно облегает зёрна.', 'Целый в холодильнике до двух месяцев.', 'Зёрна в салат, на плов и к мясу.'],
+  persimmon: ['Хурма', '#f8a040', 'Diospyros kaki', 'Полупрозрачная, хвостик сухой и коричневый.', 'Твёрдую дозарить в пакете с яблоком.', 'Спелую есть ложкой, как десерт.'],
+  apple: ['Яблоки', '#e8b24c', 'Malus domestica', 'Твёрдые, тяжёлые, без вмятин и мягких мест.', 'В холодильнике месяц, отдельно от других плодов.', 'В шарлотку или запечь с мёдом и корицей.'],
+  kiwi: ['Киви', '#a7c255', 'Actinidia deliciosa', 'Чуть мягкое при лёгком нажатии, без морщин.', 'Твёрдое дозреет за пару дней в тепле.', 'На завтрак к йогурту или в смузи.'],
+  beet: ['Свёкла', '#c83a6a', 'Beta vulgaris', 'Небольшая, твёрдая и ровная, без трещин.', 'Ботву срезать, в холодильнике до месяца.', 'Запечь в фольге, в борщ и винегрет.'],
+  carrot: ['Морковь', '#ff9a3c', 'Daucus carota', 'Ровная, яркая и твёрдая, без зелёных плеч.', 'В пакете с дырочками, в холодильнике до месяца.', 'В плов, в суп и тёртой в салат.'],
+  radish: ['Редис', '#f06b7e', 'Raphanus sativus', 'Упругий, ботва свежая, не вялая.', 'Без ботвы в холодильнике до недели.', 'В окрошку и салат со сметаной.'],
+  greens: ['Зелень', '#8cc05a', 'Petroselinum, Anethum', 'Листья упругие, без желтизны и слизи.', 'Как букет в стакане воды, в холодильнике.', 'Пучком на стол к мясу и шашлыку.'],
+  cucumber: ['Огурцы', '#78a84a', 'Cucumis sativus', 'Упругие, с пупырышками, без желтизны.', 'Неделю в холодильнике, подальше от помидоров.', 'С помидорами и зеленью, в окрошку.'],
+  springonion: ['Молодой лук', '#b8d890', 'Allium cepa', 'Белый низ, упругие ярко-зелёные перья.', 'Корешками в воду, так стоит неделю.', 'С яйцом в пирожки и в окрошку.'],
+  strawberry: ['Клубника', '#f25a4a', 'Fragaria × ananassa', 'Красная до самого хвостика и пахнет.', 'Не мыть до еды, в холодильнике день-два.', 'Со сметаной или в варенье.'],
+  cherry: ['Черешня', '#d8364a', 'Prunus avium', 'Тёмная, блестящая, с зелёными хвостиками.', 'С хвостиками и немытую, в холоде до пяти дней.', 'Охлаждённой к столу или в компот.'],
+  youngcabbage: ['Молодая капуста', '#c8e090', 'Brassica oleracea', 'Сочные светлые листья, кочан тяжёлый.', 'В пакете в холодильнике около недели.', 'В салат с огурцом и укропом.'],
+  apricot: ['Абрикосы', '#ffb45a', 'Prunus armeniaca', 'Ровно-оранжевые, упругие и с ароматом.', 'Спелые в холодильнике до трёх дней.', 'В варенье, пирог и компот.'],
+  newpotato: ['Молодой картофель', '#efd9a0', 'Solanum tuberosum', 'Кожица тонкая и стирается пальцем.', 'В тёмной прохладе до двух недель.', 'Отварить в кожуре, с укропом и маслом.'],
+  zucchini: ['Кабачки', '#b6d27a', 'Cucurbita pepo', 'Небольшие, с тонкой блестящей кожурой.', 'В холодильнике до недели, мыть перед готовкой.', 'Оладьи, рагу или на гриль.'],
+  peach: ['Персики', '#ffae7a', 'Prunus persica', 'Пахнут и чуть мягкие у хвостика.', 'Твёрдые дозреют в тепле, спелые в холодильник.', 'Сразу к столу, в пирог или компот.'],
+  sourcherry: ['Вишня', '#c82a40', 'Prunus cerasus', 'Тёмная, блестящая, сок тёмно-красный.', 'Немытую в холодильнике до трёх дней.', 'В вареники, варенье и компот.'],
+  raspberry: ['Малина', '#ec5a78', 'Rubus idaeus', 'Сухая, целая, без помятых ягод.', 'В один слой, не мыть, съесть за день-два.', 'С молоком или в варенье на зиму.'],
+  tomato: ['Помидоры', '#f06a3a', 'Solanum lycopersicum', 'Пахнут помидором у плодоножки и тяжёлые.', 'При комнатной температуре: в холоде теряют вкус.', 'С брынзой, зеленью и красным луком.'],
+  watermelon: ['Арбузы', '#f0606a', 'Citrullus lanatus', 'Жёлтое пятно на боку и звонкий звук.', 'Целый в прохладе, разрезанный в холодильнике.', 'Холодным, с брынзой, как на юге.'],
+  melon: ['Дыни', '#f5e08a', 'Cucumis melo', 'Пахнут у хвостика, корка чуть пружинит.', 'Целую в прохладе до недели, отдельно от фруктов.', 'Холодной, дольками или с ветчиной.'],
+  grape: ['Виноград', '#a06aa8', 'Vitis vinifera', 'Гроздь крепкая, веточка зелёная, ягоды не осыпаются.', 'Немытый в холодильнике до недели.', 'С сыром и орехами к столу.'],
+  eggplant: ['Баклажаны', '#9a6ab8', 'Solanum melongena', 'Блестящие, упругие, с зелёной плодоножкой.', 'В прохладе, съесть за три-четыре дня.', 'В икру или рулетики с орехами.'],
+  pear: ['Груши', '#e6d67a', 'Pyrus communis', 'У хвостика чуть мягкие при лёгком нажатии.', 'Твёрдые дозреют дома, спелые в холодильник.', 'С мягким сыром или в компот.'],
+  fig: ['Инжир', '#9a5a6e', 'Ficus carica', 'Мягкий, с каплей сока у глазка, пахнет сладко.', 'В холодильнике, съесть за день-два.', 'С сыром и мёдом или в варенье.'],
+  quince: ['Айва', '#f5e27a', 'Cydonia oblonga', 'Жёлтая и душистая, пушок легко стирается.', 'В прохладе до двух месяцев.', 'Варенье дольками или запечь к мясу.'],
+  pumpkin: ['Тыква', '#f59a3a', 'Cucurbita maxima', 'Глухой звук при стуке и сухой хвостик.', 'Целая лежит в прохладе несколько месяцев.', 'Гапама: запечь с рисом и сухофруктами.'],
+  feijoa: ['Фейхоа', '#8fb060', 'Acca sellowiana', 'Чуть мягкая и пахнет ананасом.', 'Дозревает в тепле, спелая неделю в холодильнике.', 'Перетереть с сахаром или есть ложкой.'],
+  cabbage: ['Капуста', '#b8d0a0', 'Brassica oleracea', 'Плотный тяжёлый кочан, листья хрустят.', 'Целый кочан в холодильнике месяц и дольше.', 'В борщ, на голубцы или квасить.'],
+  cranberry: ['Клюква', '#e0304a', 'Vaccinium oxycoccos', 'Твёрдая, блестящая, пружинит от стола.', 'В холодильнике месяц, в морозилке год.', 'В морс или соус к мясу.']
 };
 const PLAN = [
   ['mandarin', 'orange', 'grapefruit', 'pomegranate', 'persimmon', 'apple'],
@@ -1268,7 +1276,7 @@ function fillSeason(m, first) {
   monthName.textContent = MONTHS[m];
   cardsUl.textContent = '';
   PLAN[m].forEach((key, i) => {
-    const [name, glowC, lat, tip] = P[key];
+    const [name, glowC, lat, pick, keep, serve] = P[key];
     const li = d.createElement('li');
     if (first) { li.className = 'rv'; li.style.setProperty('--d', 3 + i); }
     else if (!RM.matches) { li.className = 'pop'; li.style.setProperty('--i', i); }
@@ -1281,8 +1289,14 @@ function fillSeason(m, first) {
     img.alt = ''; img.decoding = 'async'; if (first) img.loading = 'lazy';
     img.src = 'assets/fruits/' + key + '.svg';
     art.append(img);
-    const txt = mk('div', 'c-txt');
-    txt.append(mk('h3', '', name), mk('p', '', tip));
+    const txt = mk('div', 'c-txt'), head = mk('div', 'c-name'), tips = mk('dl', 'c-tips');
+    head.append(mk('h3', '', name));
+    [['Выбрать', pick], ['Хранить', keep], ['Подать', serve]].forEach(([k, v]) => {
+      const row = mk('div');
+      row.append(mk('dt', '', k), mk('dd', '', v));
+      tips.append(row);
+    });
+    txt.append(head, tips);
     card.append(top, art, txt); li.append(card); cardsUl.append(li);
   });
 }
