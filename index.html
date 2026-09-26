@@ -149,12 +149,35 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 .cue.gone{opacity:0}
 @media (max-height:560px){.cue{display:none}}
 
-/* статичный главный экран: телефоны, планшеты стоя, «меньше движения» */
+/* вертикальный экран (телефон, планшет стоя): узкое видео, надписи во всю ширину */
+@media (max-width: 720px), (orientation: portrait) and (max-width: 1024px), (orientation: portrait) and (pointer: coarse){
+  .hero{height:460vh}
+  .stage{height:100vh;height:100lvh}
+  .band,.band.right{left:20px;right:20px;width:auto;text-align:left}
+  .band::before,.band.right::before,.b4::before{inset:-45% -20px;background:linear-gradient(rgba(5,7,12,0),rgba(5,7,12,var(--pk,.7)) 28%,rgba(5,7,12,var(--pk,.7)) 72%,rgba(5,7,12,0))}
+  .h-hero{font-size:clamp(48px,14vw,76px);white-space:normal;margin:18px 0 14px}
+  .h-band{font-size:clamp(30px,8.6vw,46px)}
+  .h-settle{font-size:clamp(28px,7.8vw,42px)}
+  .sub{font-size:18px}
+  .b1{top:56%}
+  .b2{top:42%}
+  .b3{top:30%}
+  .b3 .ln{transform-origin:0 50%}
+  .b3 .h-band,.b3 .l2{margin-left:0}
+  .b3 .l2{font-size:18px}
+  .b4{top:34%}
+  .b4 .meta{font-size:12px;margin:16px 0 20px}
+  .b4 .ctas{gap:16px}
+  .loader{right:20px;bottom:calc(10vh + env(safe-area-inset-bottom))}
+  .cue{bottom:calc(10vh + env(safe-area-inset-bottom))}
+}
+
+/* статичный главный экран: «меньше движения», телефон боком, экономия трафика */
 .hero-static{display:none}
-.no-js .hero{height:auto}
-.no-js .stage{display:none}
-.no-js .hero-static{display:flex}
-@media (max-width: 720px), (orientation: portrait) and (max-width: 1024px), (orientation: portrait) and (pointer: coarse), (orientation: landscape) and (pointer: coarse) and (max-height: 560px), (prefers-reduced-motion: reduce){
+.no-js .hero,.force-static .hero{height:auto}
+.no-js .stage,.force-static .stage{display:none}
+.no-js .hero-static,.force-static .hero-static{display:flex}
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 560px), (prefers-reduced-motion: reduce){
   .hero{height:auto}
   .stage{display:none}
   .hero-static{display:flex}
@@ -165,6 +188,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 .hero-static .sub{max-width:24ch}
 .hero-static .ctas{margin-top:28px;display:flex;flex-wrap:wrap;gap:18px;align-items:center}
 .hero-static .meta{margin-top:18px;font:400 13px/1.6 var(--f-mono);letter-spacing:.04em}
+@media (orientation: portrait){.hero-static{background-image:linear-gradient(rgba(10,14,20,.78),rgba(10,14,20,.25) 38%,rgba(10,14,20,.35) 58%,rgba(10,14,20,.92) 88%),url(assets/hero-ending-m.jpg);background-position:center}}
 
 /* ---------- ниже главного экрана ---------- */
 .below{position:relative;z-index:1}
@@ -604,8 +628,14 @@ $$('[data-split]').forEach((el, n) => {
 const hero = $('#top'), stage = $('#stage'), video = $('#hero');
 const posterLayer = $('#poster'), posterEnd = $('#posterEnd');
 const loader = $('#loader'), cue = $('#cue');
-const VIDEO_URL = 'assets/hero-scrub.mp4';
-const VIDEO_BYTES = 6894356;
+/* два видео: широкое для компьютера и узкое вертикальное (1,8 МБ) для телефона стоя */
+const PORTRAIT = matchMedia('(max-width: 720px), (orientation: portrait) and (max-width: 1024px), (orientation: portrait) and (pointer: coarse)');
+const COARSE = matchMedia('(pointer: coarse)');
+const KINDS = {
+  d: { video: 'assets/hero-scrub.mp4', bytes: 6894356, poster: 'assets/hero-poster.jpg', ending: 'assets/hero-ending.jpg' },
+  m: { video: 'assets/hero-scrub-m.mp4', bytes: 1781094, poster: 'assets/hero-poster-m.jpg', ending: 'assets/hero-ending-m.jpg' }
+};
+const wantKind = () => (PORTRAIT.matches ? 'm' : 'd');
 const bands = $$('.band').map((el, i, all) => ({
   el, a: +el.dataset.a, b: +el.dataset.b, ramp: +(el.dataset.ramp || 0.045),
   first: i === 0, last: i === all.length - 1, op: -1, k: -1, off: null
@@ -647,7 +677,7 @@ video.addEventListener('seeked', () => {
   seekBusy = false;
   if (pendingTime !== null) { const t = pendingTime; pendingTime = null; requestSeek(t); }
 });
-video.addEventListener('error', () => { seekBusy = false; pendingTime = null; failVideo(); });
+video.addEventListener('error', () => { seekBusy = false; pendingTime = null; if (video.getAttribute('src')) failVideo(); });
 
 /* плавное время: догоняем прокрутку и засыпаем, когда догнали */
 let target = 0, shown = 0, rafId = null, lastTick = 0, heroOnScreen = true;
@@ -667,26 +697,30 @@ function onScroll() {
 new IntersectionObserver(es => { heroOnScreen = es[0].isIntersecting; if (heroOnScreen) onScroll(); }).observe(hero);
 
 /* загрузка видео целиком (Blob) с кольцом прогресса */
-function failVideo() {
+let heroKind = null, loadToken = 0, blobUrl = null, rampDone = false;
+function failVideo(token) {
+  if (token !== undefined && token !== loadToken) return;   // ошибка старой загрузки, уже неважна
   if (videoFailed) return;
   videoFailed = true;
   stage.classList.add('video-failed');
   loader.classList.add('gone');
-  posterEnd.style.backgroundImage = "url('assets/hero-ending.jpg')";
+  posterEnd.style.backgroundImage = "url('" + KINDS[heroKind].ending + "')";
   endOp = -1; updateCaptions(shown);
 }
-async function loadHeroBlob() {
+async function loadHeroBlob(token) {
+  const K = KINDS[heroKind];
   const ctrl = new AbortController();
   let watchdog = setTimeout(() => ctrl.abort(), 20000);
-  const res = await fetch(VIDEO_URL, { priority: 'low', signal: ctrl.signal });
+  const res = await fetch(K.video, { priority: 'low', signal: ctrl.signal });
   if (!res.ok || !res.body) throw new Error('video ' + res.status);
-  const total = Number(res.headers.get('Content-Length')) || VIDEO_BYTES;
+  const total = Number(res.headers.get('Content-Length')) || K.bytes;
   const reader = res.body.getReader();
   const chunks = [];
   let got = 0, lastRing = 0;
   for (;;) {
     const { done, value } = await reader.read();
     if (done) break;
+    if (token !== loadToken) { clearTimeout(watchdog); ctrl.abort(); return; }   // экран повернули: грузим другое видео
     clearTimeout(watchdog);
     watchdog = setTimeout(() => ctrl.abort(), 20000);
     chunks.push(value);
@@ -695,27 +729,46 @@ async function loadHeroBlob() {
     if (now - lastRing > 100 || frac === 1) { lastRing = now; loader.style.setProperty('--ld', Math.round(126 * (1 - frac))); }
   }
   clearTimeout(watchdog);
+  if (token !== loadToken) return;
   loader.style.setProperty('--ld', 0);
-  video.src = URL.createObjectURL(new Blob(chunks, { type: 'video/mp4' }));
+  blobUrl = URL.createObjectURL(new Blob(chunks, { type: 'video/mp4' }));
+  video.src = blobUrl;
   video.load();
   video.addEventListener('canplay', () => {
-    requestSeek(heroProgress() * video.duration);
-    stage.classList.add('video-ready');
-    setTimeout(() => loader.classList.add('gone'), 400);
+    if (token !== loadToken) return;
+    const land = () => {
+      requestSeek(heroProgress() * video.duration);
+      stage.classList.add('video-ready');
+      setTimeout(() => loader.classList.add('gone'), 400);
+    };
+    // телефоны (особенно iPhone) начинают показывать кадры после одного короткого запуска
+    const pr = COARSE.matches ? video.play() : null;
+    if (pr) pr.then(() => { video.pause(); land(); }).catch(land);
+    else land();
   }, { once: true });
 }
-let heroInited = false;
-function initHeroOnce() {
-  if (heroInited) return;
-  heroInited = true;
-  posterLayer.style.backgroundImage = "url('assets/hero-poster.jpg')";
+function initHero(kind) {
+  if (heroKind === kind) return;
+  heroKind = kind;
+  const token = ++loadToken;
+  const K = KINDS[kind];
+  // сброс прошлого видео: телефон повернули или окно сузили
+  seekBusy = false; pendingTime = null; videoFailed = false; endOp = -1;
+  stage.classList.remove('video-ready', 'video-failed');
+  loader.classList.remove('gone');
+  loader.style.setProperty('--ld', 126);
+  posterEnd.style.opacity = '0';
+  posterEnd.style.backgroundImage = '';
+  if (video.getAttribute('src')) { video.removeAttribute('src'); video.load(); }
+  if (blobUrl) { URL.revokeObjectURL(blobUrl); blobUrl = null; }
+  posterLayer.style.backgroundImage = "url('" + K.poster + "')";
   let started = false;
-  const start = () => { if (started) return; started = true; loadHeroBlob().catch(failVideo); };
+  const start = () => { if (started || token !== loadToken) return; started = true; loadHeroBlob(token).catch(() => failVideo(token)); };
   const img = new Image();
   img.onload = start; img.onerror = start;
-  img.src = 'assets/hero-poster.jpg';
+  img.src = K.poster;
   setTimeout(start, 4000);
-  runLoadRamp();
+  if (!rampDone) { rampDone = true; runLoadRamp(); }
 }
 function runLoadRamp() {
   if (RM.matches) { loadK = 1; updateCaptions(heroProgress()); return; }
@@ -729,20 +782,19 @@ function runLoadRamp() {
   requestAnimationFrame(step);
 }
 
-/* пять условий статичного экрана: те же строки, что в CSS */
+/* когда вместо видео картинка: те же строки, что в CSS, плюс режим экономии трафика */
 const GATES = [
-  '(max-width: 720px)',
-  '(orientation: portrait) and (max-width: 1024px)',
-  '(orientation: portrait) and (pointer: coarse)',
   '(orientation: landscape) and (pointer: coarse) and (max-height: 560px)',
   '(prefers-reduced-motion: reduce)'
 ];
+const saveData = !!(navigator.connection && navigator.connection.saveData);
+if (saveData) d.documentElement.classList.add('force-static');
 let scrubOn = false;
 function enableScrub() {
   if (scrubOn) return;
   scrubOn = true;
   measureHero();
-  initHeroOnce();
+  initHero(wantKind());
   addEventListener('scroll', onScroll, { passive: true });
   bands.forEach(b => { b.op = -1; b.k = -1; b.off = null; });
   cueGone = null;
@@ -757,11 +809,12 @@ function disableScrub() {
   if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; lastTick = 0; }
 }
 function applyHeroMode() {
-  if (GATES.some(q => matchMedia(q).matches)) disableScrub();
+  if (saveData || GATES.some(q => matchMedia(q).matches)) disableScrub();
   else { unpinFinalStates(); enableScrub(); }
 }
 const MQLS = GATES.map(q => matchMedia(q));
 MQLS.forEach(m => m.addEventListener('change', applyHeroMode));
+PORTRAIT.addEventListener('change', () => { if (scrubOn) { measureHero(); initHero(wantKind()); onScroll(); } });
 
 /* ---------- ветка, знак и меню при прокрутке ---------- */
 const nav = $('#nav'), below = $('#below'), branchPath = $('#branchPath');
