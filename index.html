@@ -97,6 +97,10 @@ main:focus{outline:none}
 @keyframes drift1{to{transform:translate3d(18vmax,14vmax,0)}}
 @keyframes drift2{to{transform:translate3d(-16vmax,-12vmax,0)}}
 @keyframes drift3{to{transform:translate3d(-22vmax,10vmax,0)}}
+/* мягкое тёплое свечение, которое плавно догоняет курсор (только мышь; на касании и при «меньше движения» его нет) */
+.glow{position:fixed;left:0;top:0;z-index:20;width:640px;height:640px;margin:-320px 0 0 -320px;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,rgba(255,180,108,.12),rgba(255,164,88,.05) 48%,rgba(255,164,88,0));opacity:0;transition:opacity .9s var(--ease-out);will-change:transform}
+.glow.on{opacity:1}
+@media (hover:none),(pointer:coarse){.glow{display:none}}
 body.paused *,body.paused *::before,body.paused *::after{animation-play-state:paused!important}
 .hero-on .env i{animation-play-state:paused}
 
@@ -307,6 +311,29 @@ section{scroll-margin-top:72px}
 
 /* 02 честный ящик */
 .yashchik{text-align:center}
+/* фон: солнце сквозь крону на прилавок. Тени листьев тёмные, поэтому видны только там, где свет */
+.y-bg{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(transparent,#000 14%,#000 84%,transparent);mask-image:linear-gradient(transparent,#000 14%,#000 84%,transparent)}
+.y-bg i{position:absolute;display:block}
+.y-sun{inset:0;background:radial-gradient(ellipse 46% 42% at 50% 60%,rgba(255,168,88,.2),rgba(255,150,70,.08) 48%,rgba(255,150,70,0) 78%),radial-gradient(ellipse 36% 40% at 14% 26%,rgba(111,154,69,.09),rgba(111,154,69,0) 72%),radial-gradient(ellipse 30% 36% at 88% 70%,rgba(111,154,69,.06),rgba(111,154,69,0) 72%)}
+.y-ray{top:-12%;height:95%;transform-origin:50% 0;background:linear-gradient(90deg,rgba(255,196,130,0),rgba(255,196,130,.07),rgba(255,196,130,0));-webkit-mask-image:linear-gradient(#000 30%,transparent);mask-image:linear-gradient(#000 30%,transparent)}
+.y-ray.r1{left:62%;width:120px;transform:rotate(26deg)}
+.y-ray.r2{left:70%;width:60px;transform:rotate(29deg);opacity:.8}
+.y-ray.r3{left:55%;width:180px;transform:rotate(23deg);opacity:.6}
+/* стенка лавки: доски с волокнами, видны только вокруг ящика */
+.y-wood{inset:0;opacity:.7;background:repeating-linear-gradient(180deg,rgba(0,0,0,0) 0 116px,rgba(4,6,10,.6) 116px 118px,rgba(255,220,170,.05) 118px 119px,rgba(0,0,0,0) 119px 120px),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='120'%3E%3Cfilter id='w' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0025 .11' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .78 0 0 0 0 .58 0 0 0 0 .38 .9 0 0 0 -.4'/%3E%3C/filter%3E%3Crect width='640' height='120' filter='url(%23w)'/%3E%3C/svg%3E") 0 0/640px 120px,linear-gradient(rgba(74,50,30,.16),rgba(74,50,30,.16));-webkit-mask-image:radial-gradient(ellipse 60% 56% at 50% 58%,#000 25%,transparent 100%);mask-image:radial-gradient(ellipse 60% 56% at 50% 58%,#000 25%,transparent 100%)}
+/* пятна солнца сквозь листву: два слоя «дышат» и чуть плывут навстречу друг другу */
+.y-sp{inset:-2%;will-change:opacity,transform}
+.y-sp.a{background:radial-gradient(70px 45px at 20% 40%,rgba(255,198,132,.22),rgba(255,198,132,0)),radial-gradient(34px 24px at 27% 50%,rgba(255,198,132,.26),rgba(255,198,132,0)),radial-gradient(80px 50px at 80% 38%,rgba(255,198,132,.2),rgba(255,198,132,0)),radial-gradient(40px 27px at 76% 52%,rgba(255,198,132,.28),rgba(255,198,132,0)),radial-gradient(45px 27px at 17% 66%,rgba(255,198,132,.22),rgba(255,198,132,0)),radial-gradient(60px 33px at 84% 70%,rgba(255,198,132,.2),rgba(255,198,132,0)),radial-gradient(30px 20px at 44% 41%,rgba(255,198,132,.2),rgba(255,198,132,0)),radial-gradient(45px 26px at 60% 42%,rgba(255,198,132,.16),rgba(255,198,132,0)),radial-gradient(66px 30px at 12% 82%,rgba(255,198,132,.16),rgba(255,198,132,0))}
+.y-sp.b{background:radial-gradient(51px 33px at 25% 58%,rgba(255,198,132,.24),rgba(255,198,132,0)),radial-gradient(72px 39px at 74% 62%,rgba(255,198,132,.22),rgba(255,198,132,0)),radial-gradient(30px 21px at 88% 46%,rgba(255,198,132,.22),rgba(255,198,132,0)),radial-gradient(24px 17px at 35% 43%,rgba(255,198,132,.26),rgba(255,198,132,0)),radial-gradient(45px 30px at 90% 28%,rgba(255,198,132,.14),rgba(255,198,132,0)),radial-gradient(33px 23px at 10% 30%,rgba(255,198,132,.18),rgba(255,198,132,0)),radial-gradient(39px 22px at 52% 44%,rgba(255,198,132,.16),rgba(255,198,132,0)),radial-gradient(54px 24px at 90% 84%,rgba(255,198,132,.14),rgba(255,198,132,0))}
+.alive .y-sp.a{animation:dapple 7s var(--ease-io) infinite alternate}
+.alive .y-sp.b{animation:dapple 9s var(--ease-io) -4s infinite alternate-reverse}
+.alive .y-ray{animation:shimmer 9s var(--ease-io) infinite alternate}
+.alive .y-ray.r2{animation-duration:7s;animation-delay:-3s}
+.alive .y-ray.r3{animation-duration:12s;animation-delay:-6s}
+@keyframes dapple{from{opacity:.3;transform:translate3d(-7px,3px,0)}to{opacity:1;transform:translate3d(9px,-4px,0)}}
+@keyframes shimmer{from{opacity:.35}to{opacity:1}}
+.js .rvc .y-bg,.js .rvc .v-bg{opacity:0;transition:opacity 1.8s var(--ease-out)}
+.js .rvc.in .y-bg,.js .rvc.in .v-bg{opacity:1}
 .yashchik .kicker{justify-content:center}
 .yashchik .h2{margin:0 auto;max-width:20ch}
 .yashchik .lead{margin:24px auto 0}
@@ -354,6 +381,9 @@ section{scroll-margin-top:72px}
 /* карточка: номер и латинское имя, плод на свету, название и совет */
 .card{position:relative;isolation:isolate;height:100%;display:grid;grid-template-areas:"top" "art" "txt";grid-template-rows:auto auto 1fr;padding:20px 24px 26px;border-radius:22px;background:linear-gradient(180deg,#1b2539,var(--panel) 55%);border:1px solid var(--line);overflow:hidden;transition:transform .5s var(--ease-out),border-color .5s var(--ease-out)}
 .card:hover{transform:translateY(-4px);border-color:var(--line-strong)}
+/* край карточки светится там, где рядом курсор (координаты --lx/--ly ставит JS) */
+.card::after{content:"";position:absolute;inset:-1px;z-index:3;border-radius:inherit;padding:1px;pointer-events:none;background:radial-gradient(220px circle at var(--lx,-999px) var(--ly,-999px),rgba(255,190,122,.6),rgba(255,190,122,0) 70%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:0;transition:opacity .5s var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.cards:hover .card::after{opacity:1}}
 .c-top{grid-area:top;display:flex;justify-content:space-between;align-items:baseline;gap:12px;font:500 11px/1.3 var(--f-mono);letter-spacing:.14em;color:var(--text-secondary)}
 .c-n{color:var(--accent)}
 .c-lat{font:italic 400 13px/1.3 var(--f-body);letter-spacing:.01em;text-align:right}
@@ -383,6 +413,11 @@ button.link{border:0;padding:0 0 3px;font:inherit;font-weight:500;cursor:pointer
 .c-add[aria-pressed="true"] .i-check{opacity:1;transform:none}
 
 /* 04 вопросы */
+/* фон: полоса чуть светлее, зелёный свет за фото, узор «ромб и спираль», как вышивка */
+.v-bg{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse 34% 46% at 19% 64%,rgba(111,154,69,.13),rgba(111,154,69,0) 72%),radial-gradient(ellipse 44% 50% at 82% 26%,rgba(240,122,38,.06),rgba(240,122,38,0) 72%),linear-gradient(rgba(21,29,42,0),rgba(21,29,42,.8) 14%,rgba(21,29,42,.8) 86%,rgba(21,29,42,0))}
+.v-orn{position:absolute;inset:0;display:block;opacity:.05;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cpath d='M36 5 67 36 36 67 5 36Z' fill='none' stroke='%23f4efe4' stroke-width='.8'/%3E%3Cg fill='%23f4efe4'%3E%3Ccircle cx='0' cy='0' r='1.6'/%3E%3Ccircle cx='72' cy='0' r='1.6'/%3E%3Ccircle cx='0' cy='72' r='1.6'/%3E%3Ccircle cx='72' cy='72' r='1.6'/%3E%3Cg transform='translate(27 27) scale(.18)'%3E%3Cpath d='M50 50C66 42 74 20 54 4C60 22 56 40 50 50Z'/%3E%3Cpath d='M50 50C66 42 74 20 54 4C60 22 56 40 50 50Z' transform='rotate(45 50 50)'/%3E%3Cpath d='M50 50C66 42 74 20 54 4C60 22 56 40 50 50Z' transform='rotate(90 50 50)'/%3E%3Cpath d='M50 50C66 42 74 20 54 4C60 22 56 40 50 50Z' transform='rotate(135 50 50)'/%3E%3Cpath d='M50 50C66 42 74 20 54 4C60 22 56 40 50 50Z' transform='rotate(180 50 50)'/%3E%3Cpath d='M50 50C66 42 74 20 54 4C60 22 56 40 50 50Z' transform='rotate(225 50 50)'/%3E%3Cpath d='M50 50C66 42 74 20 54 4C60 22 56 40 50 50Z' transform='rotate(270 50 50)'/%3E%3Cpath d='M50 50C66 42 74 20 54 4C60 22 56 40 50 50Z' transform='rotate(315 50 50)'/%3E%3Ccircle cx='50' cy='50' r='6'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") 0 0/72px 72px;-webkit-mask-image:linear-gradient(transparent,#000 16%,#000 84%,transparent);mask-image:linear-gradient(transparent,#000 16%,#000 84%,transparent)}
+/* под курсором узор ярче: координаты --lx/--ly ставит JS, без мыши пятна нет */
+.v-orn.v-lit{opacity:.22;-webkit-mask-image:radial-gradient(circle 260px at var(--lx,-999px) var(--ly,-999px),#000,rgba(0,0,0,.35) 40%,transparent 72%);mask-image:radial-gradient(circle 260px at var(--lx,-999px) var(--ly,-999px),#000,rgba(0,0,0,.35) 40%,transparent 72%)}
 .voprosy .v-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(40px,7vw,120px);max-width:1280px;margin:0 auto;align-items:start}
 .v-side{position:sticky;top:110px}
 .v-side .photo{margin-top:40px;max-width:380px}
@@ -555,6 +590,8 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important;transition-delay:0s!important}
   .js .rvc .rv,.js .rvc .leaf{opacity:1;transform:none}
+  .js .rvc .y-bg,.js .rvc .v-bg{opacity:1}
+  .glow,.v-orn.v-lit,.card::after{display:none}
   .js .rvc .sprig{opacity:1;transform:rotate(-6deg)}
   .photo img,.p-bg{transform:none}
   .route .rt{stroke-dashoffset:0}
@@ -583,6 +620,7 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
 
 <a class="skip" href="#main">Перейти к содержимому</a>
 <div class="env" aria-hidden="true"><i class="s1"></i><i class="s2"></i><i class="s3"></i><div class="grain"></div></div>
+<div class="glow" id="glow" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
   <a class="brand" href="#top" aria-label="У Армена, в начало страницы">
@@ -679,7 +717,14 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
       <div class="pollen" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
     </section>
 
-    <section class="sec yashchik rvc" id="yashchik">
+    <section class="sec yashchik rvc" id="yashchik" data-alive>
+      <!-- фон: стенка лавки из досок, тёплый свет за ящиком и пятна солнца сквозь листву -->
+      <div class="y-bg" aria-hidden="true">
+        <i class="y-wood"></i>
+        <i class="y-sun"></i>
+        <i class="y-ray r1"></i><i class="y-ray r2"></i><i class="y-ray r3"></i>
+        <i class="y-sp a"></i><i class="y-sp b"></i>
+      </div>
       <span class="leaf" aria-hidden="true"><svg><use href="#leafS"/></svg></span>
       <p class="kicker rv" style="--d:0"><span class="num">02</span> Честный ящик</p>
       <h2 class="h2 rv" style="--d:1">Сверху красивые, а внизу мелкие? Не здесь.</h2>
@@ -840,6 +885,8 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
     </section>
 
     <section class="sec voprosy rvc" id="voprosy">
+      <!-- фон: спокойная полоса и узор из ромбов и спиралей; под курсором узор проступает ярче -->
+      <div class="v-bg" aria-hidden="true"><i class="v-orn"></i><i class="v-orn v-lit"></i></div>
       <span class="leaf" aria-hidden="true"><svg><use href="#leafS"/></svg></span>
       <div class="v-grid">
         <div class="v-side">
@@ -1624,6 +1671,49 @@ function showOpen() {
 showOpen();
 setInterval(showOpen, 30000);
 d.addEventListener('visibilitychange', showOpen);
+
+/* ---------- мягкое свечение за курсором, края карточек «Сезона» и узор «Вопросов» ---------- */
+const FINE = matchMedia('(hover: hover) and (pointer: fine)');
+const glow = $('#glow'), voprosy = $('#voprosy'), sezonSec = $('#sezon');
+let gx = 0, gy = 0, gtx = 0, gty = 0, glowOn = false, glowRaf = null, glowLast = 0;
+const litOn = new Set();   // блоки с подсветкой, которые сейчас на экране
+const litIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) litOn.add(e.target); else litOn.delete(e.target); }));
+[voprosy, sezonSec].forEach(el => litIO.observe(el));
+function lightUp() {
+  // сначала читаем размеры, потом пишем координаты: так страница пересчитывается один раз
+  const jobs = [];
+  if (litOn.has(voprosy)) jobs.push([voprosy, voprosy.getBoundingClientRect()]);
+  if (litOn.has(sezonSec)) $$('.card', cardsUl).forEach(c => jobs.push([c, c.getBoundingClientRect()]));
+  jobs.forEach(([el, r]) => {
+    el.style.setProperty('--lx', Math.round(gx - r.left) + 'px');
+    el.style.setProperty('--ly', Math.round(gy - r.top) + 'px');
+  });
+}
+function glowTick(now) {
+  const dt = Math.min(64, now - (glowLast || now));
+  glowLast = now;
+  const k = 1 - Math.pow(1 - 0.14, dt / 16.667);   // догоняем курсор одинаково плавно на любой частоте экрана
+  gx += (gtx - gx) * k; gy += (gty - gy) * k;
+  const done = Math.abs(gtx - gx) < 0.3 && Math.abs(gty - gy) < 0.3;
+  if (done) { gx = gtx; gy = gty; }
+  glow.style.transform = 'translate3d(' + gx.toFixed(1) + 'px,' + gy.toFixed(1) + 'px,0)';
+  lightUp();
+  if (done) { glowRaf = null; glowLast = 0; } else glowRaf = requestAnimationFrame(glowTick);
+}
+const kickGlow = () => { if (glowOn && glowRaf === null) glowRaf = requestAnimationFrame(glowTick); };
+function hideGlow() {
+  glowOn = false;
+  glow.classList.remove('on');
+  voprosy.style.removeProperty('--lx'); voprosy.style.removeProperty('--ly');
+}
+addEventListener('pointermove', e => {
+  if (e.pointerType !== 'mouse' || !FINE.matches || RM.matches) return;
+  gtx = e.clientX; gty = e.clientY;
+  if (!glowOn) { glowOn = true; gx = gtx; gy = gty; glow.classList.add('on'); }
+  kickGlow();
+}, { passive: true });
+addEventListener('scroll', kickGlow, { passive: true });   // блоки едут под неподвижным курсором
+d.addEventListener('mouseout', e => { if (!e.relatedTarget) hideGlow(); });   // курсор ушёл из окна
 
 /* ---------- «меньше движения»: закрепить конечные состояния и вернуть обратно ---------- */
 function pinToFinalStates() {
