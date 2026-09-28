@@ -461,6 +461,18 @@ section{scroll-margin-top:76px}
 .site-foot .f-brand small{font:500 11px/1.3 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--ivory)}
 .f-slogan{display:block;color:var(--ivory);font:italic 500 20px/1.3 var(--f-display)}
 .f-hours{font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+/* авторы фото с Викисклада: лицензии CC BY и CC BY-SA требуют подписи; раскрывается по нажатию */
+.credits{grid-column:1/-1;padding-top:14px;border-top:1px solid var(--rule);font-size:13px;line-height:1.55}
+.credits summary{display:inline-flex;align-items:center;gap:12px;min-height:44px;cursor:pointer;list-style:none;font:500 11px/1 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--stone)}
+.credits summary::-webkit-details-marker{display:none}
+.credits summary::after{content:"+";font:500 16px/1 var(--f-body);letter-spacing:0;color:var(--orange)}
+.credits[open] summary::after{content:"−"}
+.credits summary:hover{color:var(--ivory)}
+.credits p{max-width:72ch;margin:6px 0 16px}
+.credits ul{columns:3 250px;column-gap:40px}
+.credits li{break-inside:avoid;padding:3px 0}
+.credits a{color:inherit;text-decoration:underline;text-decoration-color:var(--rule-strong);text-underline-offset:3px}
+.credits a:hover{color:var(--ivory)}
 
 /* ---------- список покупок ---------- */
 .list-fab{position:fixed;z-index:25;right:var(--gutter);bottom:calc(20px + env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:12px;padding:10px 10px 10px 18px;border:1px solid var(--rule-strong);background:rgba(17,26,38,.98);color:var(--ivory);font:600 12px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;box-shadow:0 14px 40px rgba(0,0,0,.45);animation:fabin .5s var(--ease-out) both;transition:border-color .3s var(--ease-out)}
@@ -686,18 +698,41 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
             <p class="kicker rv" style="--d:0"><span class="num">01</span> Витрина</p>
             <h2 class="h2 rv" style="--d:1" id="vtTitle">Товар лицом</h2>
           </div>
-          <p class="lead rv" style="--d:2">То, за чем к нам возвращаются. Каждый плод выбираем сами, а какие сорта сегодня на прилавке, подскажем на месте.</p>
+          <p class="lead rv" style="--d:2">То, за чем к нам возвращаются. Фото с нашего прилавка. Каждый плод выбираем сами, а какие сорта сегодня лежат, подскажем на месте.</p>
         </div>
+        <!-- фото магазина: их делает tools/photos.py из review/photos/ -->
         <ul class="vt-list" id="vtList">
           <li class="vt-item rv" style="--d:3">
-            <figure class="vt-ph"><img src="assets/abrikos.jpg" width="1200" height="1600" loading="lazy" decoding="async" alt="Спелый абрикос, разломанный пополам руками: сочная мякоть и косточка"></figure>
+            <figure class="vt-ph"><img src="assets/ph/vt-peach.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="Два ящика персиков на прилавке: сверху светлые с румянцем, снизу жёлто-красные и белые"></figure>
             <div class="vt-txt">
-              <p class="vt-top"><span class="vt-n">01</span><span class="vt-lat" lang="la">Prunus armeniaca</span></p>
-              <h3 class="vt-name">Абрикосы</h3>
-              <p class="vt-sorts">Краснощёкий · Шалах · Ананасный</p>
-              <p class="vt-desc">Учёные зовут абрикос «армянской сливой». Выбирайте ровно-оранжевые, упругие и с ароматом.</p>
-              <dl class="vt-meta"><div><dt>Россия</dt><dd>июнь–июль</dd></div><div><dt>Привозят</dt><dd>Узбекистан, Турция, Армения · май–август</dd></div></dl>
-              <button type="button" class="c-add" data-name="Абрикосы" aria-label="В список покупок: Абрикосы" aria-pressed="false"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-plus" d="M12 5v14M5 12h14"/><path class="i-check" d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button>
+              <p class="vt-top"><span class="vt-n">01</span><span class="vt-lat" lang="la">Prunus persica</span></p>
+              <h3 class="vt-name">Персики</h3>
+              <p class="vt-sorts">жёлтые · белые</p>
+              <p class="vt-desc">Бархатные, с румянцем во весь бок. Выбирайте те, что пахнут и чуть мягкие у хвостика.</p>
+              <dl class="vt-meta"><div><dt>Россия</dt><dd>июль–сентябрь</dd></div><div><dt>Привозят</dt><dd>Узбекистан, Турция, Азербайджан · июнь–октябрь</dd></div></dl>
+              <button type="button" class="c-add" data-name="Персики" aria-label="В список покупок: Персики" aria-pressed="false"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-plus" d="M12 5v14M5 12h14"/><path class="i-check" d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button>
+            </div>
+          </li>
+          <li class="vt-item rv" style="--d:3">
+            <figure class="vt-ph"><img src="assets/ph/vt-grape.webp" width="970" height="1212" loading="lazy" decoding="async" alt="Тёмно-красный виноград крупными гроздьями в деревянном ящике"></figure>
+            <div class="vt-txt">
+              <p class="vt-top"><span class="vt-n">02</span><span class="vt-lat" lang="la">Vitis vinifera</span></p>
+              <h3 class="vt-name">Виноград</h3>
+              <p class="vt-sorts">тёмный · розовый · белый</p>
+              <p class="vt-desc">Крупные грозди, ягода к ягоде. Берите крепкую гроздь с зелёной веточкой: ягоды не должны осыпаться.</p>
+              <dl class="vt-meta"><div><dt>Россия</dt><dd>август–октябрь</dd></div><div><dt>Привозят</dt><dd>Узбекистан, Турция, Индия, Перу · круглый год</dd></div></dl>
+              <button type="button" class="c-add" data-name="Виноград" aria-label="В список покупок: Виноград" aria-pressed="false"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-plus" d="M12 5v14M5 12h14"/><path class="i-check" d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button>
+            </div>
+          </li>
+          <li class="vt-item rv" style="--d:3">
+            <figure class="vt-ph"><img src="assets/ph/vt-mandarin.webp" width="778" height="972" loading="lazy" decoding="async" alt="Мандарины с листочками в ящике, над ними крупные цитрусы"></figure>
+            <div class="vt-txt">
+              <p class="vt-top"><span class="vt-n">03</span><span class="vt-lat" lang="la">Citrus reticulata</span></p>
+              <h3 class="vt-name">Мандарины</h3>
+              <p class="vt-sorts">с листочками</p>
+              <p class="vt-desc">Берите тяжёлые для своего размера: кожура легко отходит и пахнет. Листья у хвостика должны быть упругими, не сухими.</p>
+              <dl class="vt-meta"><div><dt>Привозят</dt><dd>Турция, Египет, Марокко, Китай, Абхазия · октябрь–апрель</dd></div></dl>
+              <button type="button" class="c-add" data-name="Мандарины" aria-label="В список покупок: Мандарины" aria-pressed="false"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-plus" d="M12 5v14M5 12h14"/><path class="i-check" d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></button>
             </div>
           </li>
         </ul>
@@ -720,12 +755,12 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
         </div>
         <!-- без JS виден сентябрь; с JS список собирается по текущему месяцу -->
         <ul class="cards" id="cards">
-          <li class="rv" style="--d:3"><article class="card"><div class="c-top"><span class="c-n">01</span><span class="c-lat" lang="la">Vitis vinifera</span></div><div class="c-name"><h3>Виноград</h3></div><p class="c-sorts">кишмиш белый · кишмиш чёрный · кишмиш розовый · Дамские пальчики · Мускат и ещё 4</p><dl class="c-tips"><div><dt>Выбрать</dt><dd>Гроздь крепкая, веточка зелёная, ягоды не осыпаются.</dd></div><div><dt>Хранить</dt><dd>Немытый в холодильнике до недели.</dd></div><div><dt>Подать</dt><dd>С сыром и орехами к столу.</dd></div></dl></article></li>
-          <li class="rv" style="--d:4"><article class="card"><div class="c-top"><span class="c-n">02</span><span class="c-lat" lang="la">Pyrus communis</span></div><div class="c-name"><h3>Груши</h3></div><p class="c-sorts">Конференция · Вильямс · Санта-Мария · Форель · Абате Фетель</p><dl class="c-tips"><div><dt>Выбрать</dt><dd>У хвостика чуть мягкие при лёгком нажатии.</dd></div><div><dt>Хранить</dt><dd>Твёрдые дозреют дома, спелые в холодильник.</dd></div><div><dt>Подать</dt><dd>С мягким сыром или в компот.</dd></div></dl></article></li>
-          <li class="rv" style="--d:5"><article class="card"><div class="c-top"><span class="c-n">03</span><span class="c-lat" lang="la">Malus domestica</span></div><div class="c-name"><h3>Яблоки</h3></div><p class="c-sorts">Голден · Гренни Смит · Симиренко · Гала · Фуджи и ещё 2</p><dl class="c-tips"><div><dt>Выбрать</dt><dd>Твёрдые, тяжёлые, без вмятин и мягких мест.</dd></div><div><dt>Хранить</dt><dd>В холодильнике месяц, отдельно от других плодов.</dd></div><div><dt>Подать</dt><dd>В шарлотку или запечь с мёдом и корицей.</dd></div></dl></article></li>
-          <li class="rv" style="--d:6"><article class="card"><div class="c-top"><span class="c-n">04</span><span class="c-lat" lang="la">Ficus carica</span></div><div class="c-name"><h3>Инжир</h3></div><p class="c-sorts">тёмный · зелёный</p><dl class="c-tips"><div><dt>Выбрать</dt><dd>Мягкий, с каплей сока у глазка, пахнет сладко.</dd></div><div><dt>Хранить</dt><dd>В холодильнике, съесть за день-два.</dd></div><div><dt>Подать</dt><dd>С сыром и мёдом или в варенье.</dd></div></dl></article></li>
-          <li class="rv" style="--d:7"><article class="card"><div class="c-top"><span class="c-n">05</span><span class="c-lat" lang="la">Cydonia oblonga</span></div><div class="c-name"><h3>Айва</h3></div><dl class="c-tips"><div><dt>Выбрать</dt><dd>Жёлтая и душистая, пушок легко стирается.</dd></div><div><dt>Хранить</dt><dd>В прохладе до двух месяцев.</dd></div><div><dt>Подать</dt><dd>Варенье дольками или запечь к мясу.</dd></div></dl></article></li>
-          <li class="rv" style="--d:8"><article class="card"><div class="c-top"><span class="c-n">06</span><span class="c-lat" lang="la">Cucurbita maxima</span></div><div class="c-name"><h3>Тыква</h3></div><p class="c-sorts">мускатная · баттернат · Хоккайдо</p><dl class="c-tips"><div><dt>Выбрать</dt><dd>Глухой звук при стуке и сухой хвостик.</dd></div><div><dt>Хранить</dt><dd>Целая лежит в прохладе несколько месяцев.</dd></div><div><dt>Подать</dt><dd>Гапама: запечь с рисом и сухофруктами.</dd></div></dl></article></li>
+          <li class="rv" style="--d:3"><article class="card"><div class="c-ph"><img src="assets/ph/grape.webp" width="900" height="600" alt="Белый и розовый виноград гроздьями в ящике" decoding="async" loading="lazy"></div><div class="c-top"><span class="c-n">01</span><span class="c-lat" lang="la">Vitis vinifera</span></div><div class="c-name"><h3>Виноград</h3></div><p class="c-sorts">кишмиш белый · кишмиш чёрный · кишмиш розовый · Дамские пальчики · Мускат и ещё 4</p><dl class="c-tips"><div><dt>Выбрать</dt><dd>Гроздь крепкая, веточка зелёная, ягоды не осыпаются.</dd></div><div><dt>Хранить</dt><dd>Немытый в холодильнике до недели.</dd></div><div><dt>Подать</dt><dd>С сыром и орехами к столу.</dd></div></dl></article></li>
+          <li class="rv" style="--d:4"><article class="card"><div class="c-ph"><img src="assets/ph/pear.webp" width="900" height="600" alt="Зелёные груши на прилавке рынка" decoding="async" loading="lazy"></div><div class="c-top"><span class="c-n">02</span><span class="c-lat" lang="la">Pyrus communis</span></div><div class="c-name"><h3>Груши</h3></div><p class="c-sorts">Конференция · Вильямс · Санта-Мария · Форель · Абате Фетель</p><dl class="c-tips"><div><dt>Выбрать</dt><dd>У хвостика чуть мягкие при лёгком нажатии.</dd></div><div><dt>Хранить</dt><dd>Твёрдые дозреют дома, спелые в холодильник.</dd></div><div><dt>Подать</dt><dd>С мягким сыром или в компот.</dd></div></dl></article></li>
+          <li class="rv" style="--d:5"><article class="card"><div class="c-ph"><img src="assets/ph/apple.webp" width="900" height="600" alt="Корзина красных яблок на траве" decoding="async" loading="lazy"></div><div class="c-top"><span class="c-n">03</span><span class="c-lat" lang="la">Malus domestica</span></div><div class="c-name"><h3>Яблоки</h3></div><p class="c-sorts">Голден · Гренни Смит · Симиренко · Гала · Фуджи и ещё 2</p><dl class="c-tips"><div><dt>Выбрать</dt><dd>Твёрдые, тяжёлые, без вмятин и мягких мест.</dd></div><div><dt>Хранить</dt><dd>В холодильнике месяц, отдельно от других плодов.</dd></div><div><dt>Подать</dt><dd>В шарлотку или запечь с мёдом и корицей.</dd></div></dl></article></li>
+          <li class="rv" style="--d:6"><article class="card"><div class="c-ph"><img src="assets/ph/fig.webp" width="795" height="530" alt="Инжир в ящиках: зелёный, крымский и тёмный" decoding="async" loading="lazy"></div><div class="c-top"><span class="c-n">04</span><span class="c-lat" lang="la">Ficus carica</span></div><div class="c-name"><h3>Инжир</h3></div><p class="c-sorts">тёмный · зелёный</p><dl class="c-tips"><div><dt>Выбрать</dt><dd>Мягкий, с каплей сока у глазка, пахнет сладко.</dd></div><div><dt>Хранить</dt><dd>В холодильнике, съесть за день-два.</dd></div><div><dt>Подать</dt><dd>С сыром и мёдом или в варенье.</dd></div></dl></article></li>
+          <li class="rv" style="--d:7"><article class="card"><div class="c-ph"><img src="assets/ph/quince.webp" width="900" height="600" alt="Айва горкой" decoding="async" loading="lazy"></div><div class="c-top"><span class="c-n">05</span><span class="c-lat" lang="la">Cydonia oblonga</span></div><div class="c-name"><h3>Айва</h3></div><dl class="c-tips"><div><dt>Выбрать</dt><dd>Жёлтая и душистая, пушок легко стирается.</dd></div><div><dt>Хранить</dt><dd>В прохладе до двух месяцев.</dd></div><div><dt>Подать</dt><dd>Варенье дольками или запечь к мясу.</dd></div></dl></article></li>
+          <li class="rv" style="--d:8"><article class="card"><div class="c-ph"><img src="assets/ph/pumpkin.webp" width="900" height="600" alt="Тыквы в ящике, две разрезаны" decoding="async" loading="lazy"></div><div class="c-top"><span class="c-n">06</span><span class="c-lat" lang="la">Cucurbita maxima</span></div><div class="c-name"><h3>Тыква</h3></div><p class="c-sorts">мускатная · баттернат · Хоккайдо</p><dl class="c-tips"><div><dt>Выбрать</dt><dd>Глухой звук при стуке и сухой хвостик.</dd></div><div><dt>Хранить</dt><dd>Целая лежит в прохладе несколько месяцев.</dd></div><div><dt>Подать</dt><dd>Гапама: запечь с рисом и сухофруктами.</dd></div></dl></article></li>
         </ul>
         <div class="s-foot rv" style="--d:6">
           <p>Список общий, по сезону для юга России.</p>
@@ -844,6 +879,40 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
   <div class="f-brand"><b class="wm">Овощи<svg class="mark" aria-hidden="true"><use href="#swirl"/></svg>Фрукты</b><small>у Армена</small></div>
   <p><span class="f-slogan">У нас всегда всё есть.</span> Михайловск, ЖР «Гармония», ул. Михаила Калашникова, 43</p>
   <p class="f-hours">Каждый день с 8:00 до 21:00 · © 2026</p>
+  <!-- авторы фото: список собирается из review/photos/commons/credits.json (tools/commons.py) -->
+  <details class="credits">
+    <summary>Авторы фото</summary>
+    <p>Фото на витрине и в карточках персиков, винограда, инжира, мандаринов, помело, киви и арбузов сняты у нас в магазине. Фото из списка ниже взяты с Викисклада по свободным лицензиям: мы их обрезали и подправили свет и цвет.</p>
+    <ul>
+      <li>Апельсины: <a href="https://commons.wikimedia.org/wiki/File:Oranges_Are_Not_The_Only_Fruit_(40814468122).jpg">Michael Gaylard from Horsham, UK</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a></li>
+      <li>Грейпфрут: <a href="https://commons.wikimedia.org/wiki/File:Grapefruits_-_whole-halved-segments.jpg">Ivar Leidus</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></li>
+      <li>Гранат: <a href="https://commons.wikimedia.org/wiki/File:Pomegranates_at_farmers_market_(43134440935).jpg">Ella Olsson from Stockholm, Sweden</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a></li>
+      <li>Хурма: <a href="https://commons.wikimedia.org/wiki/File:Fuyu_persimmon_fruits,_one_cut_open.jpg">Frank Schulenburg</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></li>
+      <li>Яблоки: <a href="https://commons.wikimedia.org/wiki/File:Apples_in_basket_2018_G2.jpg">George Chernilevsky</a>, общественное достояние</li>
+      <li>Груши: <a href="https://commons.wikimedia.org/wiki/File:Pears_for_sale_at_Lake_Market,_Kolkata.jpg">Sayantan Sarkar</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></li>
+      <li>Свёкла: <a href="https://commons.wikimedia.org/wiki/File:Beets_-_Harbourside_Market,_Wellington,_New_Zealand_-_DSC09783.jpg">Daderot</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a></li>
+      <li>Морковь: <a href="https://commons.wikimedia.org/wiki/File:Carrots_at_Ljubljana_Central_Market.JPG">domdomegg</a>, <a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a></li>
+      <li>Редис: <a href="https://commons.wikimedia.org/wiki/File:Fresh_radishes_(Unsplash).jpg">Damien Creatz</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a></li>
+      <li>Зелень: <a href="https://commons.wikimedia.org/wiki/File:Liat_Portal_for_Foodie_Disorder_-_Fresh_Herb_Bundle_from_San_Francisco_Farmers_Market.jpg">HaJunkiyada</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></li>
+      <li>Огурцы: <a href="https://commons.wikimedia.org/wiki/File:Ryerson_Market_cucumbers_on_sale.jpg">Jason Zhang</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a></li>
+      <li>Молодой лук: <a href="https://commons.wikimedia.org/wiki/File:Spring_Onions_displayed_at_the_Fruit_Garden_Market_D-Line_Port_Harcourt.jpg">Officialbernard1</a>, <a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a></li>
+      <li>Клубника: <a href="https://commons.wikimedia.org/wiki/File:Strawberries_in_Pakistan.jpg">Sohail.awkum</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a></li>
+      <li>Черешня: <a href="https://commons.wikimedia.org/wiki/File:Cherry_sweet_cherry_red_fruit_167341.jpg">Hans Braxmeier</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a></li>
+      <li>Вишня: <a href="https://commons.wikimedia.org/wiki/File:Sauerkirschenfrucht_Prunus_cerasus_2.JPG">Friedrich Böhringer</a>, <a href="https://creativecommons.org/licenses/by-sa/2.5">CC BY-SA 2.5</a></li>
+      <li>Молодая капуста: <a href="https://commons.wikimedia.org/wiki/File:Brassica_oleracea_var._capitata_zum_Verkauf_2011.JPG">4028mdk09</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a></li>
+      <li>Молодой картофель: <a href="https://commons.wikimedia.org/wiki/File:2402Baby_potatoes_of_the_Philippines_04.jpg">Judgefloro</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a></li>
+      <li>Кабачки: <a href="https://commons.wikimedia.org/wiki/File:Zucchini_in_basket_2021_G1.jpg">George Chernilevsky</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></li>
+      <li>Малина: <a href="https://commons.wikimedia.org/wiki/File:Raspberries_(Rubus_idaeus).jpg">Ivar Leidus</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></li>
+      <li>Помидоры: <a href="https://commons.wikimedia.org/wiki/File:Cocktail_tomatoes_at_Campbell_farmer%27s_market.jpg">Grendelkhan</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a></li>
+      <li>Дыни: <a href="https://commons.wikimedia.org/wiki/File:Cantaloupe_and_canary_melon.jpg">Atomicbre at English Wikipedia</a>, <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a></li>
+      <li>Баклажаны: <a href="https://commons.wikimedia.org/wiki/File:Eggplants_(Aubergines)_for_Sale_in_Market_-_Gjirokastra_-_Albania_(40604346550).jpg">Adam Jones from Kelowna, BC, Canada</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0">CC BY-SA 2.0</a></li>
+      <li>Айва: <a href="https://commons.wikimedia.org/wiki/File:Quince_123.jpg">Tahir mq</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a></li>
+      <li>Тыква: <a href="https://commons.wikimedia.org/wiki/File:Pumpkins_in_a_market_in_Istanbul.jpg">John Cummings</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></li>
+      <li>Фейхоа: <a href="https://commons.wikimedia.org/wiki/File:Acca_sellowiana_Fruit_MHNT_Fronton.jpg">Didier Descouens</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></li>
+      <li>Капуста: <a href="https://commons.wikimedia.org/wiki/File:Wei%C3%9Fkohl_Brassica_oleracea_var._capitata_2011.JPG">4028mdk09</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a></li>
+      <li>Клюква: <a href="https://commons.wikimedia.org/wiki/File:Vaccinium_macrocarpon_15-p.bot-vacci.macro-17.jpg">Gilles Ayotte</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></li>
+    </ul>
+  </details>
 </footer>
 
 <!-- список покупок: кнопка появляется, когда в списке что-то есть; без JS ничего этого нет -->
@@ -1347,9 +1416,44 @@ const sortsLine = key => {
   if (!s || key === 'newpotato') return '';
   return s.slice(0, 5).join(' · ') + (s.length > 5 ? ' и ещё ' + (s.length - 5) : '');
 };
-/* фото товара, где оно есть: [файл, ширина, высота, описание] */
+/* фото товара: [файл, ширина, высота, описание]. Делает tools/photos.py: сначала фото нашего прилавка,
+   потом Викисклад (авторы и лицензии в подвале, блок «Авторы фото») */
 const PHOTO = {
-  apricot: ['assets/abrikos.jpg', 1200, 1600, 'Спелый абрикос, разломанный пополам: сочная мякоть и косточка']
+  peach: ['assets/ph/peach.webp', 900, 600, 'Персики горкой в синем ящике на прилавке'],
+  grape: ['assets/ph/grape.webp', 900, 600, 'Белый и розовый виноград гроздьями в ящике'],
+  fig: ['assets/ph/fig.webp', 795, 530, 'Инжир в ящиках: зелёный, крымский и тёмный'],
+  mandarin: ['assets/ph/mandarin.webp', 900, 600, 'Мандарины с листочками в ящике'],
+  pomelo: ['assets/ph/pomelo.webp', 720, 480, 'Помело в сетке рядом с грейпфрутом и мандаринами'],
+  kiwi: ['assets/ph/kiwi.webp', 648, 432, 'Золотые киви рядами в лотке'],
+  watermelon: ['assets/ph/watermelon.webp', 648, 432, 'Полосатые арбузы в ряд на прилавке'],
+  apricot: ['assets/abrikos.jpg', 1200, 1600, 'Спелый абрикос, разломанный пополам: сочная мякоть и косточка'],
+  orange: ['assets/ph/orange.webp', 900, 600, 'Горка апельсинов на прилавке'],
+  grapefruit: ['assets/ph/grapefruit.webp', 900, 600, 'Грейпфрут целый, половинка и долька'],
+  pomegranate: ['assets/ph/pomegranate.webp', 900, 600, 'Гранаты на рынке, один раскрыт'],
+  persimmon: ['assets/ph/persimmon.webp', 900, 600, 'Две хурмы на тёмном фоне, одна разрезана'],
+  apple: ['assets/ph/apple.webp', 900, 600, 'Корзина красных яблок на траве'],
+  pear: ['assets/ph/pear.webp', 900, 600, 'Зелёные груши на прилавке рынка'],
+  beet: ['assets/ph/beet.webp', 900, 600, 'Свёкла пучками с ботвой на рынке'],
+  carrot: ['assets/ph/carrot.webp', 900, 600, 'Морковь с ботвой горкой на рынке'],
+  radish: ['assets/ph/radish.webp', 900, 600, 'Пучок свежего редиса на деревянном столе'],
+  greens: ['assets/ph/greens.webp', 900, 600, 'Пучок свежей зелени: укроп, петрушка, мята'],
+  cucumber: ['assets/ph/cucumber.webp', 900, 600, 'Огурцы горкой на прилавке'],
+  springonion: ['assets/ph/springonion.webp', 900, 600, 'Пучки молодого лука на прилавке'],
+  strawberry: ['assets/ph/strawberry.webp', 900, 600, 'Клубника в стеклянной вазе'],
+  cherry: ['assets/ph/cherry.webp', 900, 600, 'Тёмная черешня на ветке'],
+  sourcherry: ['assets/ph/sourcherry.webp', 900, 600, 'Вишня на ветке с листьями'],
+  youngcabbage: ['assets/ph/youngcabbage.webp', 900, 600, 'Кочаны молодой капусты на прилавке'],
+  newpotato: ['assets/ph/newpotato.webp', 900, 600, 'Молодой картофель на ладони'],
+  zucchini: ['assets/ph/zucchini.webp', 900, 600, 'Корзина кабачков на траве'],
+  raspberry: ['assets/ph/raspberry.webp', 900, 600, 'Спелая малина крупным планом'],
+  tomato: ['assets/ph/tomato.webp', 900, 600, 'Помидоры на ветке горкой'],
+  melon: ['assets/ph/melon.webp', 900, 600, 'Дыни целые и разрезанные на тёмном фоне'],
+  eggplant: ['assets/ph/eggplant.webp', 900, 600, 'Баклажаны на рынке'],
+  quince: ['assets/ph/quince.webp', 900, 600, 'Айва горкой'],
+  pumpkin: ['assets/ph/pumpkin.webp', 900, 600, 'Тыквы в ящике, две разрезаны'],
+  feijoa: ['assets/ph/feijoa.webp', 900, 600, 'Фейхоа целые и разрезанные на тёмном фоне'],
+  cabbage: ['assets/ph/cabbage.webp', 900, 600, 'Кочаны белокочанной капусты в ящике'],
+  cranberry: ['assets/ph/cranberry.webp', 900, 600, 'Клюква на кустике']
 };
 
 /* ---------- сезон: список сам меняется каждый месяц, соседние месяцы можно посмотреть ---------- */
