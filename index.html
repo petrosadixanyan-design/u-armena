@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>У Армена · овощи и фрукты в Михайловске</title>
-<meta name="description" content="Овощи и фрукты у Армена в Михайловске. У нас всегда всё есть. ЖР «Гармония», ул. Михаила Калашникова, 43. Каждый день с 8:00 до 21:00.">
+<title>Овощи и Фрукты у Армена · Михайловск</title>
+<meta name="description" content="Овощи и фрукты в Михайловске. У нас всегда всё есть. ЖР «Гармония», ул. Михаила Калашникова, 43. Каждый день с 8:00 до 21:00.">
 <meta name="theme-color" content="#0b1017">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
-<meta property="og:title" content="У Армена · овощи и фрукты в Михайловске">
+<meta property="og:title" content="Овощи и Фрукты у Армена · Михайловск">
 <meta property="og:description" content="У нас всегда всё есть. Выбираем, как для своих. ЖР «Гармония», ул. Михаила Калашникова, 43. Каждый день с 8:00 до 21:00.">
 <!-- DEPLOY STEP: адреса живого сайта (GitHub Pages). При переезде на свой домен заменить их здесь,
      в canonical, в разметке для поисковиков ниже (url, image) и в sitemap.xml -->
@@ -110,10 +110,13 @@ button.link{border:0;padding:0 0 4px;font:inherit;font-weight:500;cursor:pointer
 /* плотный фон без размытия под ним: размытие дорого пересчитывать при прокрутке */
 .nav.solid{background:rgba(11,16,23,.97);border-color:var(--rule)}
 .nav.solid::before{opacity:0}
-.brand{display:flex;align-items:center;gap:14px;text-decoration:none}
-.brand .mark{color:var(--orange)}
-.brand b{display:block;font:600 23px/1 var(--f-display);letter-spacing:.01em}
-.brand small{display:block;margin-top:4px;font:500 10.5px/1.3 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--stone)}
+/* название как на вывеске: крупно «Овощи ✺ Фрукты», маленьким «у Армена» */
+.wm{display:flex;align-items:center;gap:.3em;font:600 21px/1 var(--f-display);letter-spacing:.06em;text-transform:uppercase;color:var(--orange);white-space:nowrap}
+.wm .mark{width:1.05em;height:1.05em;color:var(--ivory)}
+.brand{display:flex;flex-direction:column;gap:6px;text-decoration:none}
+.b-line{display:flex;align-items:center;gap:14px}
+.brand small{font:500 10.5px/1.3 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--stone)}
+.brand .b-sub{color:var(--ivory)}
 .links{display:flex;gap:30px}
 .links a{color:var(--stone);text-decoration:none;font:500 12px/1 var(--f-body);letter-spacing:.2em;text-transform:uppercase;transition:color .3s var(--ease-out)}
 .links a:hover{color:var(--ivory)}
@@ -148,13 +151,20 @@ button.link{border:0;padding:0 0 4px;font:inherit;font-weight:500;cursor:pointer
 .eyebrow{display:flex;align-items:center;gap:14px;font:500 12px/1.3 var(--f-body);letter-spacing:.28em;text-transform:uppercase;color:var(--ivory)}
 .eyebrow::before{content:"";flex:none;width:38px;height:1px;background:var(--orange)}
 .h-hero{font:600 clamp(76px,9.6vw,158px)/.86 var(--f-display);letter-spacing:-.012em;margin:26px 0 22px;white-space:nowrap}
+/* знак главного экрана как круглая вывеска: «Овощи», справа печать «У АРМЕНА», ниже «Фрукты» */
+.lockup{display:grid;grid-template-columns:auto auto;justify-content:start;align-items:center;column-gap:.12em;font-size:clamp(70px,8.4vw,140px);letter-spacing:.02em;text-transform:uppercase;color:var(--orange)}
+.lk-a,.lk-b{justify-self:start}
+.lk-b{grid-column:1/3}
+.lk-seal{width:1.02em;height:.9em;margin-bottom:-.06em;color:var(--ivory);fill:currentColor;overflow:visible}
 .h-band{font:500 clamp(44px,5.3vw,88px)/.98 var(--f-display);letter-spacing:-.01em}
 .h-settle{font:500 clamp(42px,4.7vw,78px)/.98 var(--f-display);letter-spacing:-.01em;max-width:14ch}
 .sub{font:italic 500 clamp(24px,2.1vw,32px)/1.25 var(--f-display);color:var(--ivory);max-width:26ch}
 .w{display:inline-block}
 
 /* полоса 1: имя проявляется и чуть поднимается */
-.b1{top:47%;--pk:.7}
+.b1{top:47%;--pk:.86}
+/* под оранжевым знаком тень плотнее и шире: оранжевый темнее белого и теряется на абрикосах */
+.b1::before{background:radial-gradient(ellipse 66% 60% at 40% 50%,rgba(5,7,12,var(--pk)) 0%,rgba(5,7,12,calc(var(--pk)*.8)) 52%,rgba(5,7,12,0) 82%)}
 .b1 .eyebrow{opacity:clamp(0,var(--k,0)*2,1)}
 .b1 .h-hero{opacity:var(--k,0);transform:translateY(calc((1 - var(--k,0))*18px))}
 .b1 .sub{--ks:clamp(0,(var(--k,0) - .45)*2.4,1);opacity:var(--ks);transform:translateY(calc((1 - var(--ks))*12px))}
@@ -224,11 +234,12 @@ button.link{border:0;padding:0 0 4px;font:inherit;font-weight:500;cursor:pointer
   .stage{display:none}
   .hero-static{display:flex}
 }
-.hero-static{position:relative;min-height:100vh;min-height:100svh;flex-direction:column;justify-content:flex-end;padding:120px var(--gutter) 56px;background:linear-gradient(rgba(10,14,20,.78),rgba(10,14,20,.25) 38%,rgba(10,14,20,.35) 58%,rgba(10,14,20,.92) 88%),url(assets/hero-ending.jpg) 58% center/cover no-repeat #0b1016;text-shadow:var(--tshadow)}
+.hero-static{position:relative;min-height:100vh;min-height:100svh;flex-direction:column;justify-content:flex-end;padding:120px var(--gutter) 56px;background:linear-gradient(90deg,rgba(10,14,20,.9),rgba(10,14,20,.8) 42%,rgba(10,14,20,.3) 62%,rgba(10,14,20,0) 76%),linear-gradient(rgba(10,14,20,.78),rgba(10,14,20,.25) 38%,rgba(10,14,20,.35) 58%,rgba(10,14,20,.92) 88%),url(assets/hero-ending.jpg) 58% center/cover no-repeat #0b1016;text-shadow:var(--tshadow)}
 .hero-static .h-hero{font-size:clamp(60px,15vw,132px);white-space:normal;margin:22px 0 16px}
 .hero-static .ctas{margin-top:32px;display:flex;flex-wrap:wrap;gap:18px;align-items:center}
 .hero-static .meta{margin-top:22px;font:500 12px/1.6 var(--f-body);letter-spacing:.18em;text-transform:uppercase}
-@media (orientation: portrait){.hero-static{background-image:linear-gradient(rgba(10,14,20,.78),rgba(10,14,20,.25) 38%,rgba(10,14,20,.35) 58%,rgba(10,14,20,.92) 88%),url(assets/hero-ending-m.jpg);background-position:center}}
+/* стоя надписи во всю ширину: темнее вся нижняя половина, где знак и подпись */
+@media (orientation: portrait){.hero-static{background-image:linear-gradient(rgba(10,14,20,.78),rgba(10,14,20,.2) 24%,rgba(10,14,20,.8) 46%,rgba(10,14,20,.9) 62%,rgba(10,14,20,.95) 90%),url(assets/hero-ending-m.jpg);background-position:center;background-size:cover}}
 
 /* ---------- блоки ниже главного экрана ---------- */
 .below{position:relative;z-index:1}
@@ -445,8 +456,9 @@ section{scroll-margin-top:76px}
 
 /* подвал */
 .site-foot{position:relative;z-index:1;display:grid;grid-template-columns:auto 1fr auto;gap:32px;align-items:center;padding:48px var(--gutter) 56px;border-top:1px solid var(--rule);color:var(--stone);font-size:14px}
-.site-foot .f-brand{display:flex;align-items:center;gap:14px;color:var(--ivory);font:600 22px/1.1 var(--f-display)}
-.site-foot .f-brand .mark{color:var(--orange)}
+.site-foot .f-brand{display:flex;flex-direction:column;gap:8px}
+.site-foot .f-brand .wm{font-size:24px}
+.site-foot .f-brand small{font:500 11px/1.3 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--ivory)}
 .f-slogan{display:block;color:var(--ivory);font:italic 500 20px/1.3 var(--f-display)}
 .f-hours{font-size:12px;letter-spacing:.16em;text-transform:uppercase}
 
@@ -544,11 +556,16 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
   .ld-body{padding:0 16px 8px}
   .ld-foot{padding:14px 16px 18px}
   .list-fab{right:16px}
-  .brand .b-sub{display:none}
-  .brand b{font-size:21px}
-  .brand .open-now{letter-spacing:.08em}
+  .brand .wm{font-size:19px}
+  .brand small{letter-spacing:.1em;white-space:nowrap}
+  .b-line{gap:2px 10px;flex-wrap:wrap}
   .nav{gap:12px}
   .p-shade{background:linear-gradient(rgba(11,16,23,.93),rgba(11,16,23,.78) 60%,rgba(11,16,23,.95))}
+}
+/* самые узкие телефоны: название и «Маршрут» чуть меньше, чтобы влезли в строку */
+@media (max-width:380px){
+  .brand .wm{font-size:17px;letter-spacing:.04em}
+  .nav .btn-sm{padding:12px 13px;font-size:11px;letter-spacing:.12em}
 }
 @media (pointer:coarse){
   .btn,.link,.links a{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
@@ -585,15 +602,21 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
       <path d="M50 50C66 42 74 20 54 4C60 22 56 40 50 50Z" transform="rotate(315 50 50)"/>
       <circle cx="50" cy="50" r="6"/>
     </symbol>
+    <!-- печать с вывески: «У АРМЕНА» дугой над спиралью -->
+    <path id="sealArc" d="M22.4 64.3A40 40 0 0 1 97.6 64.3" fill="none"/>
+    <symbol id="seal" viewBox="10 22 100 88">
+      <text font-family="Onest, system-ui, sans-serif" font-size="15" font-weight="600" letter-spacing="1.6"><textPath href="#sealArc" startOffset="50%" text-anchor="middle">У АРМЕНА</textPath></text>
+      <use href="#swirl" x="30" y="48" width="60" height="60"/>
+    </symbol>
   </defs>
 </svg>
 
 <a class="skip" href="#main">Перейти к содержимому</a>
 
 <header class="nav" id="nav">
-  <a class="brand" href="#top" aria-label="У Армена, в начало страницы">
-    <svg class="mark" aria-hidden="true"><use href="#swirl"/></svg>
-    <span><b>У Армена</b><small class="b-sub">овощи · фрукты</small><small class="open-now" data-open="short" hidden><i aria-hidden="true"></i><span></span></small></span>
+  <a class="brand" href="#top" aria-label="Овощи и Фрукты у Армена, в начало страницы">
+    <b class="wm">Овощи<svg class="mark" aria-hidden="true"><use href="#swirl"/></svg>Фрукты</b>
+    <span class="b-line"><small class="b-sub">у Армена</small><small class="open-now" data-open="short" hidden><i aria-hidden="true"></i><span></span></small></span>
   </a>
   <nav aria-label="Разделы">
     <ul class="links">
@@ -617,8 +640,8 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
       <div class="scrim" aria-hidden="true"></div>
 
       <div class="band b1" data-a="0" data-b="0.24">
-        <p class="eyebrow">Овощи и фрукты · Михайловск</p>
-        <h1 class="h-hero">У Армена</h1>
+        <p class="eyebrow">Михайловск · ЖР «Гармония»</p>
+        <h1 class="h-hero lockup"><span class="lk-a">Овощи</span><span class="sr"> и </span><svg class="lk-seal" aria-hidden="true"><use href="#seal"/></svg><span class="lk-b">Фрукты</span><span class="sr"> у Армена</span></h1>
         <p class="sub">Выбираем, как для своих.</p>
       </div>
       <div class="band b2" data-a="0.27" data-b="0.48">
@@ -628,7 +651,7 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
         <p class="h-band"><span class="ln l1">У нас всегда всё есть.</span> <span class="ln l2">Как на южном рынке, только рядом с домом.</span></p>
       </div>
       <div class="band b4" data-a="0.78" data-b="1">
-        <h2 class="h-settle" data-split data-spread=".4">Заходите. Армен уже выбрал лучшее.</h2>
+        <h2 class="h-settle" data-split data-spread=".4">Заходите. Лучшее уже на прилавке.</h2>
         <p class="meta">ул. Михаила Калашникова, 43 · каждый день с 8:00 до 21:00</p>
         <div class="ctas">
           <a class="btn" href="https://yandex.ru/maps/?text=%D0%9C%D0%B8%D1%85%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D1%81%D0%BA%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%D0%B0%20%D0%9A%D0%B0%D0%BB%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%D0%B0%2C%2043" target="_blank" rel="noopener">Построить маршрут</a>
@@ -644,8 +667,8 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
     </div>
 
     <div class="hero-static">
-      <p class="eyebrow">Овощи и фрукты · Михайловск</p>
-      <h1 class="h-hero">У Армена</h1>
+      <p class="eyebrow">Михайловск · ЖР «Гармония»</p>
+      <h1 class="h-hero lockup"><span class="lk-a">Овощи</span><span class="sr"> и </span><svg class="lk-seal" aria-hidden="true"><use href="#seal"/></svg><span class="lk-b">Фрукты</span><span class="sr"> у Армена</span></h1>
       <p class="sub">У нас всегда всё есть. Выбираем, как для своих.</p>
       <div class="ctas">
         <a class="btn" href="https://yandex.ru/maps/?text=%D0%9C%D0%B8%D1%85%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2%D1%81%D0%BA%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%9C%D0%B8%D1%85%D0%B0%D0%B8%D0%BB%D0%B0%20%D0%9A%D0%B0%D0%BB%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%D0%B0%2C%2043" target="_blank" rel="noopener">Построить маршрут</a>
@@ -663,7 +686,7 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
             <p class="kicker rv" style="--d:0"><span class="num">01</span> Витрина</p>
             <h2 class="h2 rv" style="--d:1" id="vtTitle">Товар лицом</h2>
           </div>
-          <p class="lead rv" style="--d:2">То, за чем к Армену возвращаются. Каждый плод он выбирает сам, а какие сорта сегодня на прилавке, подскажет на месте.</p>
+          <p class="lead rv" style="--d:2">То, за чем к нам возвращаются. Каждый плод выбираем сами, а какие сорта сегодня на прилавке, подскажем на месте.</p>
         </div>
         <ul class="vt-list" id="vtList">
           <li class="vt-item rv" style="--d:3">
@@ -688,7 +711,7 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
             <p class="kicker rv" style="--d:0"><span class="num">02</span> Сезон</p>
             <h2 class="h2 rv" style="--d:1">Что сейчас вкуснее всего</h2>
           </div>
-          <p class="lead rv" style="--d:2">Самое вкусное всегда то, что сейчас в сезоне. Этот список меняется сам каждый месяц, а что уже лежит на прилавке, спросите у Армена.</p>
+          <p class="lead rv" style="--d:2">Самое вкусное всегда то, что сейчас в сезоне. Этот список меняется сам каждый месяц, а что уже лежит на прилавке, спросите в магазине.</p>
         </div>
         <div class="month rv" style="--d:3">
           <p aria-live="polite">В <b id="monthName">сентябре</b> в сезоне</p>
@@ -719,7 +742,7 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
             <p class="kicker rv" style="--d:0"><span class="num">03</span> Весь прилавок</p>
             <h2 class="h2 rv" style="--d:1" id="prTitle">Что бывает на прилавке</h2>
           </div>
-          <p class="lead rv" style="--d:2">Что растёт в России и что привозят из других стран, по месяцам. Ищите по названию, сорту или стране, а что лежит сегодня, спросите у Армена.</p>
+          <p class="lead rv" style="--d:2">Что растёт в России и что привозят из других стран, по месяцам. Ищите по названию, сорту или стране, а что лежит сегодня, подскажем на месте.</p>
         </div>
         <div class="pr-tools rv" style="--d:3">
           <div class="pr-seg" id="prOrigin" role="group" aria-label="Откуда"></div>
@@ -728,9 +751,9 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
         </div>
         <p class="pr-count" id="prCount" aria-live="polite"></p>
         <ul class="pr-list" id="prGrid"></ul>
-        <p class="pr-empty" id="prEmpty" hidden>Ничего не нашлось. Спросите у Армена: у нас всегда всё есть.</p>
+        <p class="pr-empty" id="prEmpty" hidden>Ничего не нашлось. Спросите в магазине: у нас всегда всё есть.</p>
         <div class="pr-more"><button type="button" class="pr-more-btn" id="prMore" hidden></button></div>
-        <p class="foot-note">Сорта: что обычно бывает на прилавках юга России, а что лежит сегодня, спросите у Армена. Страны: главные поставщики в Россию по данным Россельхознадзора и отраслевых обзоров за 2025–2026 годы. «Россия» значит, что плод свой, с полей или из теплиц, сезон указан для юга.</p>
+        <p class="foot-note">Сорта: что обычно бывает на прилавках юга России. Страны: главные поставщики в Россию по данным Россельхознадзора и отраслевых обзоров за 2025–2026 годы. «Россия» значит, что плод свой, с полей или из теплиц, сезон указан для юга.</p>
       </div>
     </section>
 
@@ -738,8 +761,8 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
       <div class="wrap svoi-grid">
         <div>
           <p class="kicker rv" style="--d:0"><span class="num">04</span> Для своих</p>
-          <h2 class="h2 rv" style="--d:1">Сюда приходят не в магазин, а к Армену.</h2>
-          <p class="lead rv" style="--d:2">Армена в «Гармонии» знают по имени. Он подскажет, что сегодня слаще, поможет выбрать к столу и не положит в пакет то, что не взял бы себе.</p>
+          <h2 class="h2 rv" style="--d:1">Сюда приходят не в магазин, а к своим.</h2>
+          <p class="lead rv" style="--d:2">В «Гармонии» нас знают в лицо. Подскажем, что сегодня слаще, поможем выбрать к столу и не положим в пакет то, что не взяли бы себе.</p>
           <ul class="facts rv" style="--d:3">
             <li><b>8:00 до 21:00</b><span>каждый день</span></li>
             <li><b>Калашникова, 43</b><span>ЖР «Гармония»</span></li>
@@ -779,14 +802,14 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
           <p class="kicker rv" style="--d:0"><span class="num">06</span> Вопросы</p>
           <h2 class="h2 rv" style="--d:1">Что обычно спрашивают</h2>
           <div class="qa-more rv" style="--d:2">
-            <p>Не нашли свой вопрос? Спросите у Армена на месте.</p>
+            <p>Не нашли свой вопрос? Задайте его на месте.</p>
             <a class="link" href="#prihodite">Как дойти</a>
           </div>
         </div>
         <div class="qa" id="qa">
           <div class="qa-item rv open" style="--d:1"><h3 class="qa-q"><button type="button" id="qb1" aria-expanded="true" aria-controls="qp1"><span class="qa-n">01</span><span class="qa-t">Дороже, чем в супермаркете?</span><span class="qa-i" aria-hidden="true"></span></button></h3><div class="qa-a" id="qp1" role="region" aria-labelledby="qb1"><div><p>Бывает, что да. Зато помидор пахнет помидором, а яблоко хрустит.</p></div></div></div>
-          <div class="qa-item rv" style="--d:2"><h3 class="qa-q"><button type="button" id="qb2" aria-expanded="true" aria-controls="qp2"><span class="qa-n">02</span><span class="qa-t">Можно выбрать самому?</span><span class="qa-i" aria-hidden="true"></span></button></h3><div class="qa-a" id="qp2" role="region" aria-labelledby="qb2"><div><p>Конечно. Выбирайте руками или доверьте Армену: он знает, что сегодня лучше.</p></div></div></div>
-          <div class="qa-item rv" style="--d:3"><h3 class="qa-q"><button type="button" id="qb3" aria-expanded="true" aria-controls="qp3"><span class="qa-n">03</span><span class="qa-t">Как понять, что плод спелый?</span><span class="qa-i" aria-hidden="true"></span></button></h3><div class="qa-a" id="qp3" role="region" aria-labelledby="qb3"><div><p>Спросите Армена. А пока загляните в блок «Сезон»: там у каждого плода есть подсказка.</p></div></div></div>
+          <div class="qa-item rv" style="--d:2"><h3 class="qa-q"><button type="button" id="qb2" aria-expanded="true" aria-controls="qp2"><span class="qa-n">02</span><span class="qa-t">Можно выбрать самому?</span><span class="qa-i" aria-hidden="true"></span></button></h3><div class="qa-a" id="qp2" role="region" aria-labelledby="qb2"><div><p>Конечно. Выбирайте руками или доверьтесь нам: подскажем, что сегодня лучше.</p></div></div></div>
+          <div class="qa-item rv" style="--d:3"><h3 class="qa-q"><button type="button" id="qb3" aria-expanded="true" aria-controls="qp3"><span class="qa-n">03</span><span class="qa-t">Как понять, что плод спелый?</span><span class="qa-i" aria-hidden="true"></span></button></h3><div class="qa-a" id="qp3" role="region" aria-labelledby="qb3"><div><p>Спросите в магазине, выберем при вас. А пока загляните в блок «Сезон»: там у каждого плода есть подсказка.</p></div></div></div>
           <div class="qa-item rv" style="--d:4"><h3 class="qa-q"><button type="button" id="qb4" aria-expanded="true" aria-controls="qp4"><span class="qa-n">04</span><span class="qa-t">Есть доставка?</span><span class="qa-i" aria-hidden="true"></span></button></h3><div class="qa-a" id="qp4" role="region" aria-labelledby="qb4"><div><p>Пока нет. Приходите в магазин: ЖР «Гармония», ул. Михаила Калашникова, 43.</p></div></div></div>
           <div class="qa-item rv" style="--d:5"><h3 class="qa-q"><button type="button" id="qb5" aria-expanded="true" aria-controls="qp5"><span class="qa-n">05</span><span class="qa-t">Когда вы открыты?</span><span class="qa-i" aria-hidden="true"></span></button></h3><div class="qa-a" id="qp5" role="region" aria-labelledby="qb5"><div><p>Каждый день с 8:00 до 21:00, без выходных.</p></div></div></div>
         </div>
@@ -798,14 +821,14 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
       <div class="p-shade" aria-hidden="true"></div>
       <div class="p-card">
         <p class="kicker rv" style="--d:0"><span class="num">07</span> Приходите</p>
-        <h2 class="h2 rv" style="--d:1">Калашникова, 43. Армен на месте с восьми утра.</h2>
+        <h2 class="h2 rv" style="--d:1">Калашникова, 43. Открыты с восьми утра.</h2>
         <svg class="route rv" style="--d:2" viewBox="0 0 420 150" aria-hidden="true">
           <path class="st" d="M0 40H420M0 112H420M70 0V150M210 0V150M330 0V150"/>
           <path class="rt" pathLength="1" d="M34 112H150Q210 112 210 88V58Q210 40 236 40H318"/>
           <circle class="you" cx="34" cy="112" r="5"/>
           <text x="22" y="138">ВЫ</text>
           <g class="pin"><use href="#swirl" x="306" y="16" width="44" height="44"/></g>
-          <text x="282" y="80">У АРМЕНА</text>
+          <text x="328" y="80" text-anchor="middle">ОВОЩИ ФРУКТЫ</text>
         </svg>
         <ul class="addr rv" style="--d:3"><li>ЖР «Гармония», Михайловск</li><li>Каждый день с 8:00 до 21:00</li><li class="open-now" data-open="long" hidden><i aria-hidden="true"></i><span></span></li></ul>
         <div class="ctas rv" style="--d:4">
@@ -818,7 +841,7 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
 </main>
 
 <footer class="site-foot">
-  <div class="f-brand"><svg class="mark" aria-hidden="true"><use href="#swirl"/></svg>Овощи и Фрукты у Армена</div>
+  <div class="f-brand"><b class="wm">Овощи<svg class="mark" aria-hidden="true"><use href="#swirl"/></svg>Фрукты</b><small>у Армена</small></div>
   <p><span class="f-slogan">У нас всегда всё есть.</span> Михайловск, ЖР «Гармония», ул. Михаила Калашникова, 43</p>
   <p class="f-hours">Каждый день с 8:00 до 21:00 · © 2026</p>
 </footer>
@@ -828,7 +851,7 @@ html.lock{overflow:hidden;scrollbar-gutter:stable}
 <dialog class="list-dlg" id="listDlg" aria-labelledby="listTitle">
   <div class="ld-head">
     <div>
-      <p class="ld-kick">У Армена · Калашникова, 43</p>
+      <p class="ld-kick">Калашникова, 43 · с 8:00 до 21:00</p>
       <h2 id="listTitle">Список покупок</h2>
     </div>
     <button type="button" class="ld-x" id="listClose" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
@@ -1582,7 +1605,7 @@ function prRow(it, i, anim) {
       v.append(b); ul.append(v);
     });
     so.append(ul);
-  } else so.append(mk('p', 'none', 'один, спросите у Армена'));
+  } else so.append(mk('p', 'none', 'один, уточните в магазине'));
   const src = mk('ul', 'pr-src');
   if (it.home) {
     const r = mk('li');
@@ -1705,7 +1728,7 @@ function renderList(focus) {
 }
 function listText() {
   const left = list.filter(x => !x.d), items = left.length ? left : list;
-  return 'Купить у Армена (Калашникова, 43):\n' + items.map(x => '• ' + x.n).join('\n');
+  return 'Купить в овощном (Калашникова, 43):\n' + items.map(x => '• ' + x.n).join('\n');
 }
 async function copyText(text) {
   try { await navigator.clipboard.writeText(text); say('Скопировано'); }
@@ -1796,7 +1819,7 @@ function openState(now) {
     long: (shut ? 'Сегодня выходной' : 'Сейчас закрыто') + ', откроемся ' + when + 'в ' + hhmm(HOURS.open)
   };
 }
-const openEls = $$('[data-open]'), brandSub = $('#nav .b-sub');
+const openEls = $$('[data-open]');
 let openShown = '';
 function showOpen() {
   if (d.hidden) return;
@@ -1808,7 +1831,6 @@ function showOpen() {
     $('span', el).textContent = el.dataset.open === 'long' ? st.long : st.short;
     el.hidden = false;
   });
-  brandSub.hidden = true;
 }
 showOpen();
 setInterval(showOpen, 30000);
